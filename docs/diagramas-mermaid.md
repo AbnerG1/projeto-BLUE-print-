@@ -1,126 +1,138 @@
 # Diagramas editáveis
 
-Os diagramas Mermaid abaixo representam os quatro níveis. Para visualizar, abra este arquivo no GitHub ou copie o bloco para um editor compatível com Mermaid.
+Preparei os diagramas abaixo para acompanhar cada nível da atividade. Eles podem ser visualizados diretamente no GitHub ou copiados para um editor que aceite Mermaid.
 
 ## Nível 1 — Jornada Desktop
 
-```mermaid
+~~~mermaid
 flowchart LR
- A["Acesso e login"] --> B["Iniciar nova venda"]
- B --> C["Inserir produto"]
- C --> D{"Produto localizado?"}
- D -- Não --> E["Aviso: produto não encontrado"]
+ A["Acessar o sistema"] --> B["Iniciar uma venda"]
+ B --> C["Informar o produto"]
+ C --> D{"Produto foi localizado?"}
+ D -- "Não" --> E["Conferir o código e tentar novamente"]
  E --> C
- D -- Sim --> F{"Estoque suficiente?"}
- F -- Não --> G["Aviso: estoque insuficiente"]
+ D -- "Sim" --> F{"Há estoque suficiente?"}
+ F -- "Não" --> G["Aviso de estoque insuficiente"]
  G --> C
- F -- Sim --> H["Adicionar item e somar parcial"]
- H --> I{"Há mais itens?"}
- I -- Sim --> C
- I -- Não --> J["Totalizar venda"]
- J --> K["Selecionar forma de pagamento"]
- K --> L{"Valor pago >= total?"}
- L -- Não --> M["Informar valor restante"]
+ F -- "Sim" --> H["Incluir item e atualizar parcial"]
+ H --> I{"Há mais produtos?"}
+ I -- "Sim" --> C
+ I -- "Não" --> J["Conferir o total"]
+ J --> K["Escolher forma e confirmar pagamento"]
+ K --> L{"Valor pago cobre o total?"}
+ L -- "Não" --> M["Informar quanto falta"]
  M --> K
- L -- Sim --> N["Registrar venda"]
- N --> O["Baixar estoque"]
+ L -- "Sim" --> N["Registrar venda"]
+ N --> O["Atualizar estoque"]
  O --> P["Gerar e entregar recibo"]
-```
+~~~
 
 ## Nível 2 — Blueprint Desktop
 
-```mermaid
+~~~mermaid
 flowchart TB
- subgraph U["Ações do usuário"]
- U1["Entrar no sistema"] --> U2["Iniciar venda e inserir produtos"]
- U2 --> U3["Conferir total e informar pagamento"]
- U3 --> U4["Entregar recibo"]
+ subgraph U["Ações do Operador de Caixa"]
+ U1["Entrar no sistema"] --> U2["Iniciar a venda"]
+ U2 --> U3["Informar os produtos"]
+ U3 --> U4["Conferir o total"]
+ U4 --> U5["Confirmar o pagamento"]
+ U5 --> U6["Entregar o recibo"]
  end
- subgraph F["Frontstage - contato visível"]
- F1["Login"] --> F2["Exibição de produtos e parcial"]
- F2 --> F3["Total e validação do pagamento"]
- F3 --> F4["Confirmação e recibo"]
+ subgraph F["Frontstage — o que o operador vê"]
+ F1["Retorno do login"] --> F2["Área de venda"]
+ F2 --> F3["Produto, preço e parcial"]
+ F3 --> F4["Total da compra"]
+ F4 --> F5["Resultado do pagamento"]
+ F5 --> F6["Confirmação e recibo"]
  end
- subgraph B["Backstage - ações internas"]
- B1["Autenticar usuário"] --> B2["Consultar catálogo e estoque"]
- B2 --> B3["Calcular total e validar pagamento"]
- B3 --> B4["Registrar venda e atualizar estoque"]
+ subgraph B["Backstage — o que acontece internamente"]
+ B1["Validar usuário"] --> B2["Preparar venda"]
+ B2 --> B3["Consultar catálogo e estoque"]
+ B3 --> B4["Calcular total"]
+ B4 --> B5["Conferir valor recebido"]
+ B5 --> B6["Registrar venda e atualizar estoque"]
  end
- subgraph S["Suporte"]
- S1["Cadastro de usuários"] --> S2["Catálogo e persistência"]
+ subgraph S["Processos de suporte"]
+ S1["Cadastro de usuários"] --> S2["Catálogo de produtos"]
  S2 --> S3["Regras de negócio"]
- S3 --> S4["Geração de comprovante"]
+ S3 --> S4["Persistência e geração do recibo"]
  end
  U1 --> F1
  U2 --> F2
  U3 --> F3
  U4 --> F4
+ U5 --> F5
+ U6 --> F6
  F1 --> B1
  F2 --> B2
  F3 --> B3
  F4 --> B4
+ F5 --> B5
+ F6 --> B6
  B1 --> S1
- B2 --> S2
- B3 --> S3
- B4 --> S4
-```
+ B3 --> S2
+ B5 --> S3
+ B6 --> S4
+~~~
 
 ## Nível 3 — Jornada TechStock
 
-```mermaid
+~~~mermaid
 flowchart LR
- A["Abrir /portal"] --> B["Informar credenciais"]
- B --> C{"Login válido?"}
- C -- Não --> D["Erro 401 e nova tentativa"]
+ A["Abrir /portal"] --> B["Informar usuário e senha"]
+ B --> C{"Credenciais corretas?"}
+ C -- "Não" --> D["Ver mensagem de erro"]
  D --> B
- C -- Sim --> E["Redirecionar para /banco"]
- E --> F["Visualizar tabela e indicadores"]
- F --> G["Filtrar por nome/categoria"]
+ C -- "Sim" --> E["Acessar /banco"]
+ E --> F["Consultar tabela e indicadores"]
+ F --> G["Filtrar a tabela no navegador"]
  G --> H{"Precisa alterar o catálogo?"}
- H -- Não --> I["Sair"]
- H -- Sim --> J["Executar cURL com cookie"]
- J --> K{"Requisição válida?"}
- K -- Não --> L["Exibir erro 400/401/404"]
+ H -- "Não" --> I["Sair"]
+ H -- "Sim" --> J["Enviar cURL autenticado"]
+ J --> K{"Requisição aceita?"}
+ K -- "Não" --> L["Conferir erro 400, 401 ou 404"]
  L --> J
- K -- Sim --> M["Atualizar /banco e conferir"]
+ K -- "Sim" --> M["Atualizar /banco e conferir"]
  M --> I
-```
+~~~
 
 ## Nível 4 — Blueprint TechStock
 
-```mermaid
+~~~mermaid
 flowchart TB
- subgraph U["Usuário"]
- U1["Abrir Portal"] --> U2["Enviar login"] --> U3["Consultar e filtrar Banco"]
- U3 --> U4["Enviar operação CRUD via cURL"]
- U4 --> U5["Conferir lista e sair"]
+ subgraph U["O que a pessoa faz"]
+ U1["Abrir Portal"] --> U2["Enviar login"]
+ U2 --> U3["Consultar Banco"]
+ U3 --> U4["Filtrar a tabela"]
+ U4 --> U5["Manter catálogo pelo cURL"]
+ U5 --> U6["Conferir e sair"]
  end
  subgraph F["Interface e rotas"]
  F1["GET /portal"] --> F2["POST /portal"]
  F2 --> F3["GET /banco"]
- F3 --> F4["Campo de busca - main.js"]
- F4 --> F5["POST/GET/PUT/DELETE /componentes"]
+ F3 --> F4["Filtro em main.js"]
+ F4 --> F5["GET /componentes ou POST/PUT/DELETE"]
  F5 --> F6["GET /logout"]
  end
  subgraph B["Lógica interna"]
- B1["Application.autenticar"] --> B2["UserRecord + User_account"]
+ B1["Application.autenticar"] --> B2["UserRecord e User_account"]
  B2 --> B3["GerenciadorSessoes"]
  B4["Application.render_banco"] --> B5["ComponentRecord.listar"]
- B6["Controller valida sessão"] --> B7["Componente valida dados"]
- B7 --> B8["ComponentRecord salva ou remove"]
+ B6["Verificar sessão"] --> B7["Validar dados em Componente"]
+ B7 --> B8["ComponentRecord grava ou remove"]
  end
  subgraph S["Dados e suporte"]
- S1["Bottle + templates"] 
- S2["Hash PBKDF2-HMAC-SHA256"]
- S3["Token em memória e cookie"]
- S4["componentes.json / user_accounts.json"]
+ S1["Bottle e templates"]
+ S2["Hash da senha e salt"]
+ S3["Token de sessão em memória"]
+ S4["Arquivos JSON"]
  end
  U1 --> F1
  U2 --> F2
  U3 --> F3
- U3 --> F4
- U4 --> F5
- U5 --> F6
+ U4 --> F4
+ U5 --> F5
+ U6 --> F6
  F2 --> B1
  B1 --> B2
  B2 --> S2
@@ -134,4 +146,8 @@ flowchart TB
  B7 --> B8
  B8 --> S4
  F1 --> S1
-```
+~~~
+
+## Uma observação sobre os desenhos
+
+Os diagramas do Desktop mostram o fluxo definido na documentação do Módulo 01. Os do TechStock representam rotas e classes que foram conferidas no código. Assim, os desenhos deixam visualmente clara a diferença entre um fluxo especificado e um fluxo observado na implementação.
