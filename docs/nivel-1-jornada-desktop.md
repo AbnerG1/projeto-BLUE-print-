@@ -1,25 +1,22 @@
 # Nível 1 — Jornada do usuário | Sistema Desktop de Gestão e Caixa
 
 **Perfil:** operador de caixa de um pequeno comércio.  
-**Objetivo:** registrar a compra, receber o pagamento e concluir a venda com o estoque atualizado.
-
-A jornada segue o fluxo descrito no estudo de caso do Módulo 01.
+**Objetivo:** registrar os produtos da compra e concluir a venda.
 
 ## Jornada do Operador de Caixa
 
-| Etapa | O que o operador faz | Resposta esperada do sistema | O que pode atrapalhar | O que ajudaria |
-|---|---|---|---|---|
-| 1. Acesso | Informa usuário e senha. | Libera o acesso ao sistema. | Esquecer os dados ou receber uma mensagem confusa. | Mostrar claramente se o acesso foi aceito e o que fazer em caso de erro. |
-| 2. Nova venda | Abre a área de registro de venda. | Apresenta o espaço para incluir os produtos. | Demorar para encontrar a função. | Deixar o início de uma venda fácil de localizar. |
-| 3. Produtos | Informa o código de barras ou identificador de cada item. | Localiza o produto e mostra preço e valor parcial. | Código não encontrado ou estoque insuficiente. | Explicar o problema e permitir corrigir o código sem recomeçar a venda. |
-| 4. Conferência | Confere os itens e pede a totalização. | Mostra a lista e o valor final. | Perceber tarde que um item ou uma quantidade está incorreta. | Deixar os itens e o total visíveis antes do pagamento. |
-| 5. Pagamento | Escolhe a forma de pagamento e informa o valor recebido. | Confere se o valor cobre o total. | O valor recebido ser menor que o necessário. | Mostrar quanto ainda falta para concluir a venda. |
-| 6. Finalização | Conclui a operação e entrega o recibo. | Registra a venda, atualiza o estoque e gera o comprovante. | Não saber se a venda foi concluída. | Exibir uma confirmação clara junto do recibo. |
+| Etapa | O que o operador faz | Resposta do sistema | Onde pode ter dificuldade |
+|---|---|---|---|
+| 1. Escolher o perfil | Abre o programa e seleciona "Funcionário (Caixa)". | Entra na área do funcionário. | Escolher o perfil errado ou não saber qual opção usar. |
+| 2. Iniciar a venda | Seleciona "Iniciar nova venda". | Abre uma tela de venda com a lista de itens e o total. | Iniciar uma venda sem querer ou não encontrar a opção. |
+| 3. Adicionar produtos | Usa "Adicionar Produto" para incluir os itens da compra. | Os itens aparecem no carrinho e o total é atualizado. | Informar um produto inexistente ou pedir uma quantidade maior que o estoque. |
+| 4. Conferir a compra | Verifica os produtos e o valor total. | Mostra os itens registrados e o total da venda. | Não perceber um item ou quantidade incorreta. |
+| 5. Fechar ou cancelar | Seleciona "Fechar Venda" ou "Cancelar Venda". | A venda é encerrada ou cancelada. | Fechar uma compra por engano ou não ter certeza de que ela foi registrada. |
 
-## Situações fora do fluxo normal
+## Outra parte do sistema
 
-- **Produto não encontrado:** o operador confere o código e tenta novamente.
-- **Estoque insuficiente ou zerado:** o item não deve ser incluído na compra.
-- **Pagamento abaixo do total:** pela regra RN01, a venda não pode ser finalizada enquanto o valor recebido for menor que o total.
+O Gerente/Administrador entra por um perfil separado, protegido por senha. No painel administrativo, pode cadastrar, listar, atualizar e excluir produtos, consultar o relatório de vendas e iniciar uma venda.
 
-A inclusão dos produtos e o pagamento são os momentos que mais exigem atenção, pois um erro pode atrasar o atendimento ou gerar divergência no estoque.
+## Relação com os requisitos do Módulo 01
+
+O estudo de caso também prevê o processamento do pagamento, a regra RN01 (não finalizar quando o valor pago for menor que o total) e a emissão de recibo. Esses passos devem ser mostrados na gravação caso estejam disponíveis na versão executável. Na demonstração analisada, eles não ficaram visíveis com clareza.
