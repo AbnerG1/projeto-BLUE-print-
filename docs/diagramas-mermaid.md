@@ -1,6 +1,4 @@
-# Diagramas editáveis
-
-Preparei os diagramas abaixo para acompanhar cada nível da atividade. Eles podem ser visualizados diretamente no GitHub ou copiados para um editor que aceite Mermaid.
+# Diagramas
 
 ## Nível 1 — Jornada Desktop
 
@@ -148,7 +146,3 @@ flowchart TB
  B8 --> S4
  F1 --> S1
 ~~~
-
-## Uma observação sobre os desenhos
-
-Os diagramas do Desktop mostram o fluxo definido na documentação do Módulo 01. Os do TechStock representam rotas e classes que foram conferidas no código. Assim, os desenhos deixam visualmente clara a diferença entre um fluxo especificado e um fluxo observado na implementação.
