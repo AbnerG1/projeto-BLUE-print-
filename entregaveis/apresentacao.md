@@ -1,40 +1,40 @@
 # Apresentação — BLUE print
 
-A apresentação está dividida em quatro partes, uma para cada nível da atividade. A ideia é mostrar primeiro a experiência do usuário e, em seguida, abrir o fluxo para explicar o que acontece por trás do serviço.
+A apresentação está dividida em quatro partes, uma para cada nível da atividade.
 
 ## Ordem dos slides
 
-| Slide | Tema | O que vale destacar |
+| Slide | Tema | Conteúdo |
 |---|---|---|
-| 1 | Capa | Nome da atividade, aluno e tema do trabalho. |
-| 2 | Os dois projetos | Explicar que os níveis 1 e 2 são do Desktop e os níveis 3 e 4 são do TechStock. |
-| 3 | Nível 1 — Jornada Desktop | Acompanhar o operador do login até a entrega do recibo. |
+| 1 | Capa | Atividade, aluno e tema. |
+| 2 | Os dois projetos | Níveis 1 e 2: Desktop. Níveis 3 e 4: TechStock. |
+| 3 | Nível 1 — Jornada Desktop | Do login à entrega do recibo. |
 | 4 | Nível 1 — Situações críticas | Produto não encontrado, falta de estoque e pagamento abaixo do total. |
-| 5 | Nível 2 — Blueprint Desktop | Mostrar a relação entre o que o operador faz, o que aparece na tela e as tarefas internas. |
-| 6 | Nível 2 — Pontos de atenção | Explicar as regras de negócio e deixar claro que o mapa vem dos requisitos do Módulo 01. |
-| 7 | Nível 3 — Jornada TechStock | Mostrar login, consulta do catálogo, filtro e manutenção por cURL. |
-| 8 | Nível 3 — Uso real da aplicação | Destacar que a consulta é visual, mas o cadastro, a alteração e a exclusão passam pelo terminal. |
-| 9 | Nível 4 — Blueprint TechStock | Relacionar páginas, rotas, classes e arquivos JSON. |
-| 10 | Nível 4 — Respostas e erros | Explicar os retornos HTTP 401, 400 e 404, além da sessão e da persistência. |
-| 11 | Ideias para melhorar | Apresentar as melhorias como propostas, sem confundi-las com funções já existentes. |
-| 12 | Fontes e encerramento | Relembrar a diferença entre os projetos e citar os materiais consultados. |
+| 5 | Nível 2 — Blueprint Desktop | Ações do operador, interface e processos internos. |
+| 6 | Nível 2 — Regras da venda | Validação do estoque e do pagamento. |
+| 7 | Nível 3 — Jornada TechStock | Login, consulta do catálogo, busca e manutenção por cURL. |
+| 8 | Nível 3 — Uso do catálogo | Diferença entre consultar pela página e alterar pelo terminal. |
+| 9 | Nível 4 — Blueprint TechStock | Rotas, classes, arquivos e responsabilidades. |
+| 10 | Nível 4 — Respostas da API | Códigos HTTP, sessão e persistência. |
+| 11 | Comparação dos projetos | Desktop: fluxo descrito nos requisitos. TechStock: fluxo conferido no código. |
+| 12 | Encerramento | Fontes consultadas e divisão das entregas. |
 
-## Sugestão de divisão dos vídeos
+## Divisão dos vídeos
 
-Grave um vídeo para cada nível, respeitando o limite de cinco minutos indicado no enunciado:
+O enunciado pede um vídeo de até cinco minutos para cada nível.
 
 - **Nível 1:** slides 3 e 4.
 - **Nível 2:** slides 5 e 6.
 - **Nível 3:** slides 7 e 8.
 - **Nível 4:** slides 9 e 10.
 
-Os slides 1 e 2 podem ser usados como apresentação geral, e os slides 11 e 12 como fechamento, conforme o tempo disponível.
+Os slides 1 e 2 servem de introdução. Os slides 11 e 12 podem ser usados no fechamento, caso haja tempo.
 
-## Materiais para consultar
+## Documentos de apoio
 
-- [Escopo e premissas](../docs/00-escopo-e-premissas.md)
+- [Escopo e fontes](../docs/00-escopo-e-premissas.md)
 - [Jornada Desktop](../docs/nivel-1-jornada-desktop.md)
 - [Blueprint Desktop](../docs/nivel-2-blueprint-desktop.md)
 - [Jornada TechStock](../docs/nivel-3-jornada-bmvc.md)
 - [Blueprint TechStock](../docs/nivel-4-blueprint-bmvc.md)
-- [Diagramas editáveis](../docs/diagramas-mermaid.md)
+- [Diagramas](../docs/diagramas-mermaid.md)
