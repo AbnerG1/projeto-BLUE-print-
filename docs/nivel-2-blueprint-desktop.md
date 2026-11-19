@@ -1,31 +1,37 @@
 # Nível 2 — Blueprint do serviço | Sistema Desktop de Gestão e Caixa
 
-O blueprint acompanha o trabalho do operador desde a escolha do perfil até o encerramento da venda. Também inclui as atividades do painel administrativo que mantêm o catálogo e o estoque atualizados.
+O blueprint mostra o trabalho dos dois perfis e o que acontece por trás das telas. O caixa cuida da venda; o gerente mantém os produtos e acompanha os resultados.
 
-## Blueprint da venda
+## Blueprint — venda no caixa
 
-| Camada | Acesso | Início da venda | Inclusão dos produtos | Totalização | Fechamento |
-|---|---|---|---|---|---|
-| Evidência física | Tela "Selecione seu acesso". | Painel do funcionário e botão "Iniciar nova venda". | Janela de venda, carrinho e botão "Adicionar Produto". | Lista de itens e total. | Botões "Fechar Venda" e "Cancelar Venda". |
-| Ação do usuário | Escolhe "Funcionário (Caixa)". | Inicia uma venda. | Adiciona os produtos da compra. | Confere os itens e o total. | Fecha ou cancela a venda. |
-| Frontstage — o que aparece | Área do funcionário. | Tela "Nova Venda". | Produtos incluídos no carrinho. | Total da venda atualizado. | Retorno ao painel após fechar ou cancelar. |
-| Backstage — o que acontece | Define o perfil ativo. | Prepara o carrinho e a nova venda. | Consulta o produto e verifica a quantidade disponível. | Soma os subtotais dos itens. | Registra a venda e atualiza o estoque. |
-| Suporte necessário | Tela de perfis e controle de acesso. | Interface Tkinter. | Catálogo e consulta ao estoque. | Lógica de cálculo. | SQLite e rotinas de venda. |
+| Camada | Acesso | Montagem da compra | Pagamento | Fechamento |
+|---|---|---|---|---|
+| Ação do usuário | Escolhe Funcionário (Caixa). | Inicia a venda e adiciona produtos. | Informa os dados solicitados para o pagamento. | Confirma a operação e entrega a nota fiscal. |
+| Frontstage — o que aparece | Painel do funcionário. | Tela de venda, itens e total atualizado. | Área de finalização da compra. | Confirmação da venda e nota fiscal. |
+| Backstage — processamento | Identifica o perfil ativo. | Consulta produtos, confere estoque e calcula o total. | Aplica as regras de pagamento. | Registra a venda, grava os itens e atualiza o estoque. |
+| Suporte | Controle de acesso e interface Tkinter. | Catálogo e lógica de cálculo. | Rotina de pagamento. | Banco SQLite e rotina de emissão da nota fiscal. |
 
-## Administração do estoque
+## Blueprint — gestão pelo gerente
 
-O perfil Administrador/Gerente abre o painel administrativo. Nele estão as operações de criar, listar, atualizar e excluir produtos, além do relatório de vendas do dia. Essas ações dão suporte ao trabalho do caixa porque mantêm o catálogo e as quantidades disponíveis.
+| Camada | Acessar administração | Manter produtos | Acompanhar o dia |
+|---|---|---|---|
+| Ação do usuário | Escolhe o perfil Gerente. | Cadastra ou atualiza produtos e consulta o estoque. | Abre o relatório diário. |
+| Frontstage — o que aparece | Painel administrativo. | Formulários e listagem de produtos. | Relatório com quantidade de vendas e total arrecadado. |
+| Backstage — processamento | Confere o perfil e libera as opções administrativas. | Valida e salva os dados do catálogo. | Consulta as vendas registradas e calcula os indicadores do dia. |
+| Suporte | Interface Tkinter e controle de acesso. | Rotinas de produto e estoque. | Registros de vendas no SQLite e cálculo do relatório. |
 
-## O que acontece no banco de dados
+## Dados que dão suporte ao sistema
 
-O módulo sistema_bd.py usa SQLite e cria três tabelas:
+O módulo `sistema_bd.py` usa SQLite. A estrutura consultada contém registros de produtos, vendas e itens vendidos. Na conclusão da venda, o sistema grava o total e os itens e atualiza as quantidades do estoque.
 
-- produtos: guarda nome, preço e quantidade em estoque.
-- vendas: guarda o registro e o total da venda.
-- itens_venda: relaciona os produtos e as quantidades incluídas em cada venda.
+A nota fiscal faz parte do fechamento apresentado pelo aluno. O relatório diário reúne a quantidade de vendas e o total arrecadado, permitindo ao gerente acompanhar o resultado do comércio.
 
-A rotina registrar_venda_e_baixar_estoque grava a venda, registra os itens e diminui as quantidades correspondentes no estoque.
+## O que mostrar na apresentação
 
-## Um ponto para conferir antes da apresentação
+1. Entrar como Funcionário (Caixa), iniciar uma venda e incluir mais de um produto.
+2. Conferir o total, concluir a venda e mostrar a nota fiscal.
+3. Voltar à seleção de perfil e entrar como Gerente.
+4. Cadastrar ou atualizar um produto e mostrar a alteração no catálogo.
+5. Abrir o relatório diário e apontar a quantidade de vendas e o total arrecadado.
 
-O estudo de caso do Módulo 01 prevê selecionar a forma de pagamento, validar o valor recebido pela regra RN01 e gerar um recibo. A gravação analisada mostra o total e o botão de fechar venda, mas não permite confirmar uma etapa separada de pagamento ou a emissão do recibo. Antes de apresentá-los como funções implementadas, é importante verificar esses passos na versão que será executada.
+Essa sequência deixa visível a relação entre as ações dos usuários, as telas, as regras do sistema e os dados salvos.
