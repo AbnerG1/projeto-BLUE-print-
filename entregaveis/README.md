@@ -1,7 +1,10 @@
-# Entregáveis de apresentação
+# Materiais de apresentação
 
-Os arquivos de roteiro e diagramas editáveis estão em `docs/`.
+Esta pasta reúne os materiais de apoio para apresentar os quatro níveis da atividade.
 
-A atividade pede que cada nível seja apresentado em um vídeo de até cinco minutos. O roteiro de fala está em [roteiros-de-apresentacao.md](../docs/roteiros-de-apresentacao.md) e os diagramas estão em [diagramas-mermaid.md](../docs/diagramas-mermaid.md).
+- [Estrutura dos slides](apresentacao.md): ordem sugerida e assunto de cada slide.
+- [Documento consolidado](documento-consolidado.md): resumo dos quatro níveis e links para os mapas completos.
 
-Os slides e o documento final também serão disponibilizados como arquivos para apresentação/consulta. Os diagramas devem ser narrados como modelos de serviço, observando as premissas sobre o Desktop e as funcionalidades verificadas no TechStock.
+Os diagramas em formato editável estão em [docs/diagramas-mermaid.md](../docs/diagramas-mermaid.md). Os roteiros de fala são material pessoal de preparação e ficam fora do repositório.
+
+A atividade estabelece o limite de cinco minutos para cada vídeo. Vale usar os slides como apoio visual, sem tentar ler todo o conteúdo da tela.
