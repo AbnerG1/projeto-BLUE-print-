@@ -13,11 +13,11 @@ O mapa foi montado a partir do código existente no repositório, não apenas de
 | Evidência física | Navegador e endereço /portal. | Formulário com usuário e senha. | Página Banco, indicadores e tabela. | Campo de busca. | Terminal e resposta HTTP/JSON do cURL. | Link Sair no cabeçalho. |
 | Ação do usuário | Acessa o endereço local. | Envia as credenciais. | Abre a página de consulta. | Digita um termo. | Envia uma requisição autenticada para a API. | Seleciona Sair. |
 | Contato com o sistema | GET /portal. | POST /portal. | GET /banco. | Evento de digitação tratado pelo JavaScript. | POST, PUT ou DELETE /componentes; também existe GET /componentes. | GET /logout. |
-| Frontstage — retorno visível | Formulário do Portal. | Redirecionamento para Banco ou mensagem de erro. | Tabela, indicadores e usuário conectado. | Linhas correspondentes ao termo digitado. | Mensagem e dados de retorno em JSON, com código HTTP. | Retorno à página Portal. |
-| Backstage — lógica da aplicação | Bottle encaminha a requisição para a rota. | Application.autenticar consulta UserRecord e confere a senha. | Application.render_banco obtém os componentes e calcula o total de unidades. | main.js compara o texto das linhas da tabela. | A rota confere a sessão, chama ComponentRecord e aplica as validações de Componente. | Application.logout encerra a sessão. |
+| Frontstage — retorno visível | Formulário do Portal. | Redirecionamento para Banco ou mensagem de erro. | Tabela, indicadores e usuário conectado. | Linhas cujo texto contém o termo digitado. O JavaScript examina o conteúdo completo da linha, não apenas nome e categoria. | Mensagem e dados de retorno em JSON, com código HTTP. | Retorno à página Portal. |
+| Backstage — lógica da aplicação | Bottle encaminha a requisição para a rota. | Application.autenticar consulta UserRecord e confere a senha. | Application.render_banco obtém os componentes e calcula o total de unidades. | main.js compara o texto completo de cada linha da tabela; o campo sugere nome/categoria, mas a busca também pode encontrar ID, quantidade ou descrição. | A rota confere a sessão, chama ComponentRecord e aplica as validações de Componente. | Application.logout encerra a sessão. |
 | Suporte e dados | Servidor Bottle e templates. | Hash PBKDF2-HMAC-SHA256 com salt; criação da sessão. | ComponentRecord e arquivo componentes.json. | JavaScript e CSS da página. | DataRecord faz a leitura/gravação JSON; testes verificam as operações. | Cookie session_id removido; sessão encerrada em memória. |
 
-## Quem faz o quê dentro do código
+Na primeira execução, ComponentRecord cria três registros de exemplo: resistor de 220 Ω, capacitor de 100 µF e ESP32 DevKit. Isso permite abrir a página Banco e encontrar dados logo no primeiro acesso.\n\n## Quem faz o quê dentro do código
 
 - **Rotas (route.py):** recebem as requisições de login, logout, consulta e manutenção dos componentes.
 - **Application (app/controllers/application.py):** coordena autenticação, sessão e montagem das páginas.
@@ -33,8 +33,8 @@ O mapa foi montado a partir do código existente no repositório, não apenas de
 | Entrar | POST /portal | Com credenciais válidas, cria uma sessão e redireciona para Banco. Credenciais incorretas retornam HTTP 401. |
 | Consultar em JSON | GET /componentes | Retorna os componentes e exige uma sessão válida. |
 | Cadastrar | POST /componentes | Cria um componente; quando os dados são aceitos, retorna HTTP 201. |
-| Alterar | PUT /componentes/<id> | Atualiza o componente; dados inválidos retornam 400 e ID não encontrado retorna 404. |
-| Excluir | DELETE /componentes/<id> | Remove o componente; ID não encontrado retorna 404. |
+| Alterar | PUT /componentes/{id} | Atualiza o componente; dados inválidos retornam 400 e ID não encontrado retorna 404. |
+| Excluir | DELETE /componentes/{id} | Remove o componente; ID não encontrado retorna 404. |
 | Sair | GET /logout | Encerra a sessão, remove o cookie e volta ao Portal. |
 
 As rotas de manutenção também exigem autenticação. Uma chamada sem sessão válida recebe HTTP 401.
