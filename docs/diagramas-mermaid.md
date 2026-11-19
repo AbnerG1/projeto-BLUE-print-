@@ -3,60 +3,86 @@
 ## Nível 1 — Jornada Desktop
 
 ~~~mermaid
-flowchart LR
- A["Abrir o programa"] --> B["Escolher Funcionário (Caixa)"]
- B --> C["Iniciar nova venda"]
- C --> D["Adicionar produto"]
- D --> E{"Produto encontrado e disponível?"}
- E -- "Não" --> F["Mostrar aviso e corrigir a seleção"]
- F --> D
- E -- "Sim" --> G["Incluir item e atualizar total"]
- G --> H{"Há mais produtos?"}
- H -- "Sim" --> D
- H -- "Não" --> I["Conferir o carrinho e o total"]
- I --> J["Fechar ou cancelar a venda"]
- J --> K["Registrar venda e atualizar estoque"]
+flowchart TD
+ A["Abrir o programa"] --> B{"Escolher perfil"}
+ B --> C["Funcionário (Caixa)"]
+ B --> G["Gerente"]
+ C --> D["Iniciar venda"]
+ D --> E["Adicionar produtos"]
+ E --> F{"Produto disponível?"}
+ F -- "Não" --> E1["Mostrar aviso e escolher outro item"]
+ E1 --> E
+ F -- "Sim" --> H["Atualizar carrinho e total"]
+ H --> I["Conferir compra"]
+ I --> J["Receber pagamento"]
+ J --> K["Concluir venda"]
+ K --> L["Registrar venda e atualizar estoque"]
+ L --> M["Emitir nota fiscal"]
+ G --> N["Abrir painel administrativo"]
+ N --> O["Cadastrar ou atualizar produtos"]
+ O --> P["Consultar estoque"]
+ P --> Q["Abrir relatório diário"]
+ Q --> R["Ver quantidade de vendas e total arrecadado"]
 ~~~
 
 ## Nível 2 — Blueprint Desktop
 
 ~~~mermaid
 flowchart TB
- subgraph U["Ações do Operador de Caixa"]
- U1["Escolher Funcionário (Caixa)"] --> U2["Iniciar nova venda"]
+ subgraph U["Ações dos usuários"]
+ U1["Funcionário: escolher perfil"] --> U2["Iniciar venda"]
  U2 --> U3["Adicionar produtos"]
- U3 --> U4["Conferir carrinho e total"]
- U4 --> U5["Fechar ou cancelar"]
+ U3 --> U4["Conferir total e receber pagamento"]
+ U4 --> U5["Concluir venda"]
+ G1["Gerente: escolher perfil"] --> G2["Cadastrar ou atualizar produtos"]
+ G2 --> G3["Consultar estoque"]
+ G3 --> G4["Abrir relatório diário"]
  end
- subgraph F["Frontstage — o que o operador vê"]
- F1["Tela de seleção de perfil"] --> F2["Área do funcionário"]
- F2 --> F3["Tela Nova Venda"]
- F3 --> F4["Itens e total atualizado"]
- F4 --> F5["Retorno do fechamento ou cancelamento"]
+ subgraph F["Frontstage — o que aparece"]
+ F1["Painel do funcionário"] --> F2["Tela de venda e carrinho"]
+ F2 --> F3["Total e finalização"]
+ F3 --> F4["Nota fiscal"]
+ G5["Painel administrativo"] --> G6["Cadastro e listagem de produtos"]
+ G6 --> G7["Relatório: vendas do dia e total arrecadado"]
  end
- subgraph B["Backstage — o que acontece internamente"]
- B1["Definir perfil ativo"] --> B2["Preparar carrinho"]
- B2 --> B3["Consultar produto e estoque"]
- B3 --> B4["Somar os itens"]
- B4 --> B5["Registrar venda e baixar estoque"]
+ subgraph B["Backstage — o que acontece"]
+ B1["Preparar venda"] --> B2["Consultar produto e estoque"]
+ B2 --> B3["Calcular total"]
+ B3 --> B4["Processar pagamento"]
+ B4 --> B5["Registrar venda e itens"]
+ B5 --> B6["Atualizar estoque"]
+ B6 --> B7["Gerar nota fiscal"]
+ G8["Validar dados do produto"] --> G9["Salvar alterações do catálogo"]
+ G9 --> G10["Consultar vendas registradas"]
+ G10 --> G11["Calcular resumo diário"]
  end
- subgraph S["Processos de suporte"]
- S1["Painel administrativo e controle de acesso"] --> S2["Cadastro e catálogo de produtos"]
- S2 --> S3["SQLite: produtos, vendas e itens_venda"]
+ subgraph S["Suporte"]
+ S1["Interface Tkinter e controle de acesso"]
+ S2["Regras de venda e estoque"]
+ S3["SQLite: produtos, vendas e itens vendidos"]
+ S4["Rotina de emissão da nota fiscal"]
  end
  U1 --> F1
  U2 --> F2
- U3 --> F3
- U4 --> F4
- U5 --> F5
+ U3 --> F2
+ U4 --> F3
+ U5 --> F4
+ G1 --> G5
+ G2 --> G6
+ G3 --> G6
+ G4 --> G7
  F1 --> B1
  F2 --> B2
  F3 --> B3
- F4 --> B4
- F5 --> B5
+ F4 --> B7
+ G6 --> G8
+ G7 --> G10
  B1 --> S1
- B3 --> S2
+ B2 --> S2
  B5 --> S3
+ B7 --> S4
+ G9 --> S3
+ G11 --> S3
 ~~~
 
 ## Nível 3 — Jornada TechStock
@@ -130,4 +156,79 @@ flowchart TB
  B7 --> B8
  B8 --> S4
  F1 --> S1
+~~~
+
+## Referência de arquitetura — BMVC
+
+O projeto inicial disponibilizado pelo professor ajuda a visualizar a separação entre rotas, aplicação, modelos, registros e páginas. No TechStock, os nomes são diferentes, mas a divisão de responsabilidades pode ser vista no diagrama abaixo.
+
+~~~mermaid
+classDiagram
+ class route_py {
+   +Bottle app
+   +portal()
+   +login()
+   +banco()
+   +listar_componentes()
+   +criar_componente()
+   +atualizar_componente()
+   +remover_componente()
+ }
+ class Application {
+   +users UserRecord
+   +componentes ComponentRecord
+   +sessoes GerenciadorSessoes
+   +autenticar()
+   +usuario_logado()
+   +logout()
+   +render_portal()
+   +render_banco()
+ }
+ class DataRecord {
+   <<abstract>>
+   +models
+   +read()
+   +save()
+   +converter()*
+ }
+ class UserRecord {
+   +buscar()
+   +converter()
+ }
+ class ComponentRecord {
+   +listar()
+   +buscar()
+   +criar()
+   +atualizar()
+   +remover()
+   +converter()
+ }
+ class User_account {
+   +username
+   +confere_senha()
+ }
+ class Componente {
+   +id
+   +nome
+   +categoria
+   +quantidade
+   +descricao
+   +validar()
+   +to_dict()
+   +from_dict()
+ }
+ class GerenciadorSessoes {
+   +criar()
+   +usuario()
+   +encerrar()
+ }
+ route_py --> Application : encaminha requisições
+ Application *-- UserRecord
+ Application *-- ComponentRecord
+ Application *-- GerenciadorSessoes
+ UserRecord --|> DataRecord
+ ComponentRecord --|> DataRecord
+ UserRecord --> User_account : cria e consulta
+ ComponentRecord --> Componente : cria e consulta
+ DataRecord ..> JSON : lê e grava
 ~~~
