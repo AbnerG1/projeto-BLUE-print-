@@ -1,42 +1,53 @@
-# Escopo e premissas
+# Escopo, fontes e premissas
 
-## Objetivo
-Documentar jornadas do usuário e blueprints de serviço para os quatro níveis da microtarefa, respeitando o limite de cinco minutos por vídeo.
+## Para que serve este material
 
-## Separação dos sistemas
+A atividade pede duas ferramentas de Design de Serviço — jornada do usuário e blueprint — aplicadas a dois projetos. Organizei o trabalho em quatro níveis para deixar claro o que pertence a cada sistema e evitar que os fluxos se misturem.
 
-| Nível | Sistema | Perfil central | Entrega |
+## Divisão dos níveis
+
+| Nível | Sistema | Quem está no centro | Entrega |
 |---|---|---|---|
 | 1 | Sistema Desktop de Gestão e Caixa | Operador de Caixa | Jornada do usuário |
-| 2 | Sistema Desktop de Gestão e Caixa | Operador de Caixa | Blueprint |
-| 3 | TechStock BMVC | Operador/gerente do catálogo | Jornada do usuário |
-| 4 | TechStock BMVC | Operador/gerente do catálogo | Blueprint |
+| 2 | Sistema Desktop de Gestão e Caixa | Operador de Caixa | Blueprint do serviço |
+| 3 | TechStock BMVC | Pessoa responsável pelo catálogo | Jornada do usuário |
+| 4 | TechStock BMVC | Pessoa responsável pelo catálogo | Blueprint do serviço |
 
-Os dois projetos não são uma única aplicação. O BLUE print é o repositório que reúne os artefatos de Design de Serviço; os códigos-fonte continuam nos repositórios originais.
+O Desktop e o TechStock não são partes de um mesmo aplicativo. O BLUE print é apenas o espaço onde reuni os documentos desta atividade; os códigos continuam nos seus repositórios de origem.
 
-## Fontes
+## Materiais usados
 
-1. Especificação do Sistema Desktop de Gestão e Caixa (Módulo 01), com os atores Operador de Caixa e Gerente, o fluxo de registro de venda, as exceções de produto inexistente e estoque insuficiente e as regras do pagamento.
-2. Repositório [Projeto-desktop](https://github.com/AbnerG1/Projeto-desktop).
-3. Repositório [TechStock BMVC](https://github.com/AbnerG1/techstock-bmvc), incluindo README, rotas Bottle, modelos, controllers, templates, JavaScript e testes.
-4. Enunciado de Ferramentas de Design de Serviço mostrado na imagem enviada na conversa.
+1. **Estudo de caso do Sistema Desktop de Gestão e Caixa (Módulo 01):** descreve os atores Operador de Caixa e Gerente, o registro de venda, o gerenciamento de estoque, as situações de produto inexistente e estoque insuficiente e as regras de pagamento.
+2. **[Repositório Projeto-desktop](https://github.com/AbnerG1/Projeto-desktop):** contém os materiais anteriores do projeto Desktop.
+3. **[Repositório TechStock BMVC](https://github.com/AbnerG1/techstock-bmvc):** consultei o README, as rotas Bottle, os modelos, os controllers, os templates, o JavaScript e os testes.
+4. **Enunciado da atividade:** imagem compartilhada na conversa, com os quatro níveis e o limite de até cinco minutos por vídeo.
 
-## Premissas e limites
+## O que os mapas representam
 
-### Desktop
-O documento de Módulo 01 especifica o comportamento esperado do sistema: autenticação, registro da venda, pesquisa de produto por código de barras ou identificador, totalização, pagamento, baixa de estoque e recibo. Os materiais acessíveis não comprovam que todas essas telas, integrações e operações estejam implementadas na versão executável do Desktop. Por isso, os níveis 1 e 2 são **modelos de experiência baseados nos requisitos**, e não uma auditoria de telas implementadas.
+### Desktop — níveis 1 e 2
 
-O meio de pagamento não é detalhado na especificação. O blueprint representa a confirmação do pagamento como etapa do serviço, sem presumir integração com banco, adquirente ou maquininha.
+A referência disponível é a especificação do Módulo 01. Ela descreve o fluxo esperado: entrar no sistema, iniciar uma venda, localizar os produtos, calcular o total, receber o pagamento, atualizar o estoque e gerar um recibo.
 
-### TechStock BMVC
-Os níveis 3 e 4 descrevem o código consultado. O login ocorre em `/portal`; a consulta visual é feita em `/banco`; a busca por nome/categoria filtra a tabela no navegador. CREATE, UPDATE e DELETE são executados por requisições HTTP com cURL e sessão autenticada, não por botões de edição na página.
+Não consegui confirmar, apenas com esses materiais, todas as telas e integrações da versão executável. Por isso, os mapas do Desktop devem ser entendidos como uma representação do serviço definido nos requisitos, e não como uma auditoria da aplicação pronta.
 
-O catálogo guarda ID, nome, categoria, quantidade e descrição. Os dados são persistidos em arquivos JSON. A sessão é mantida em memória e expira após uma hora; reiniciar o servidor exige novo login.
+A especificação também não define uma integração com banco, maquininha ou adquirente. O blueprint mostra a etapa de pagamento sem presumir qual tecnologia é usada para processá-lo.
 
-## Como diferenciar os artefatos
-- **Jornada do usuário:** mostra o que a pessoa faz, pensa, sente e quais dificuldades encontra ao longo do tempo.
-- **Blueprint:** conecta as ações do usuário às interações visíveis, às ações internas e aos processos/sistemas de suporte.
+### TechStock — níveis 3 e 4
 
-## Sugestões de melhoria (não são funcionalidades atuais)
-- Desktop: feedback claro de cada etapa, prevenção de erro na leitura de produto e confirmação legível de pagamento/recibo.
-- TechStock: oferecer cadastro, edição e remoção por interface gráfica para reduzir a necessidade de terminal.
+Aqui foi possível conferir o fluxo no próprio código. O usuário acessa /portal, faz login e é direcionado para /banco, onde consulta os componentes. O filtro atua na tabela já carregada no navegador.
+
+A consulta também pode ser feita pela rota GET /componentes, que retorna JSON. Para cadastrar, alterar ou excluir componentes, o projeto usa requisições autenticadas feitas pelo cURL no terminal. Essas operações não aparecem como formulários na interface web.
+
+Os dados do catálogo e das contas ficam em arquivos JSON. A sessão, por outro lado, fica em memória, expira depois de uma hora e precisa ser refeita quando o servidor é reiniciado.
+
+## Diferença entre jornada e blueprint
+
+- **Jornada do usuário:** acompanha a experiência de quem usa o sistema, do começo ao fim, incluindo dúvidas, dificuldades e oportunidades de melhoria.
+- **Blueprint do serviço:** mostra como essa experiência é sustentada. Além do que o usuário faz e vê, entram as atividades internas e os recursos necessários para entregar o serviço.
+
+## Melhorias que poderiam ser consideradas
+
+As sugestões abaixo são ideias para evoluir os projetos, não recursos que estou afirmando que já existem.
+
+- **Desktop:** deixar o resultado de cada etapa mais claro, facilitar a correção de um código de produto e mostrar quanto falta pagar quando o valor recebido é menor que o total.
+- **TechStock:** oferecer telas de cadastro, edição e exclusão para que a manutenção do catálogo não dependa do terminal.
