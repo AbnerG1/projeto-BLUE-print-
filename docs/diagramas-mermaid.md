@@ -68,7 +68,8 @@ flowchart TB
  F3 --> B3
  F4 --> B4
  F5 --> B5
- F6 --> B6
+ B5 --> B6
+ B6 --> F6
  B1 --> S1
  B3 --> S2
  B5 --> S3
