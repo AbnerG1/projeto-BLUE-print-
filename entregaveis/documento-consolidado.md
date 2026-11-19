@@ -1,12 +1,14 @@
 # Documento consolidado — BLUE print
 
 ## Identificação
+
 - **Aluno:** Abner da Silva Gomes
 - **Matrícula:** 251018184
 - **Atividade:** Ferramentas de Design de Serviço — Jornadas e Blueprints
 
-## Organização das entregas
-O trabalho possui quatro níveis e usa dois sistemas distintos. O repositório BLUE print reúne a documentação, mas não combina os códigos-fonte dos sistemas.
+## Como o trabalho foi organizado
+
+A atividade foi dividida em quatro níveis e usa dois sistemas diferentes. Os dois primeiros olham para o Sistema Desktop de Gestão e Caixa; os dois últimos analisam o TechStock BMVC. Mantive os projetos separados porque cada um tem seu próprio objetivo e sua própria implementação.
 
 | Nível | Sistema | Entrega |
 |---|---|---|
@@ -15,30 +17,37 @@ O trabalho possui quatro níveis e usa dois sistemas distintos. O repositório B
 | 3 | TechStock BMVC | Jornada do usuário |
 | 4 | TechStock BMVC | Blueprint do serviço |
 
-## Síntese
-### Níveis 1 e 2 — Desktop App
-A jornada é centrada no Operador de Caixa: autenticação, início da venda, inclusão de produtos, totalização, pagamento e finalização com baixa de estoque e recibo. O blueprint conecta as ações à interface e às atividades internas, como consulta ao catálogo, conferência de estoque, cálculo do total, validação do pagamento e persistência da venda.
+## Níveis 1 e 2 — Sistema Desktop de Gestão e Caixa
 
-**Limite:** os níveis 1 e 2 são derivados dos requisitos documentados do Módulo 01. Não se afirma que todas as telas, dispositivos ou integrações estejam implementados na versão executável.
+A jornada acompanha o Operador de Caixa desde o acesso ao sistema até a finalização da venda. Nesse caminho, ele inicia o atendimento, informa os produtos, confere o total, recebe o pagamento e entrega o recibo.
 
-### Níveis 3 e 4 — TechStock BMVC
-A jornada representa a autenticação em `/portal`, consulta em `/banco`, filtro local da tabela e manutenção dos componentes por cURL. O blueprint mapeia as rotas Bottle, a classe Application, os records, os modelos e a persistência em JSON.
+O blueprint mostra o que precisa acontecer em cada etapa para que o atendimento funcione: autenticação, consulta ao catálogo, verificação de estoque, cálculo do total, validação do pagamento, registro da venda e atualização das quantidades.
 
-**Evidência:** os níveis 3 e 4 foram conferidos a partir do código, templates, JavaScript e testes existentes no repositório TechStock.
+**Importante:** esses dois mapas foram construídos a partir do estudo de caso do Módulo 01. Eles representam o serviço definido nos requisitos; não confirmam que todas as telas, integrações e dispositivos estejam implementados na versão executável.
 
-## Índice dos documentos
+## Níveis 3 e 4 — TechStock BMVC
+
+No TechStock, a jornada começa no Portal, passa pelo login e chega à página Banco, onde os componentes podem ser consultados e filtrados. Quando é necessário cadastrar, alterar ou excluir um item, a operação é feita pelo terminal usando cURL e uma sessão autenticada.
+
+O blueprint abre esse fluxo e mostra como as rotas Bottle se conectam à classe Application, aos modelos, aos records e aos arquivos JSON que armazenam os dados.
+
+**Importante:** a consulta visual existe na página Banco. As operações de cadastro, alteração e exclusão não são botões da interface web; são chamadas HTTP feitas no terminal.
+
+## Documentos do trabalho
+
 - [Escopo, fontes e premissas](../docs/00-escopo-e-premissas.md)
 - [Nível 1 — Jornada Desktop](../docs/nivel-1-jornada-desktop.md)
 - [Nível 2 — Blueprint Desktop](../docs/nivel-2-blueprint-desktop.md)
 - [Nível 3 — Jornada TechStock](../docs/nivel-3-jornada-bmvc.md)
 - [Nível 4 — Blueprint TechStock](../docs/nivel-4-blueprint-bmvc.md)
 - [Diagramas editáveis](../docs/diagramas-mermaid.md)
-- [Roteiros dos quatro vídeos](../docs/roteiros-de-apresentacao.md)
-- [Estrutura da apresentação de 12 slides](./apresentacao.md)
+- [Organização da apresentação](./apresentacao.md)
 
 ## Projetos de origem
+
 - [Projeto Desktop](https://github.com/AbnerG1/Projeto-desktop)
 - [TechStock BMVC](https://github.com/AbnerG1/techstock-bmvc)
 
-## Regra de apresentação
-O enunciado estabelece duração máxima de cinco minutos por vídeo. Os quatro roteiros foram planejados para aproximadamente três a quatro minutos, permitindo explicar as etapas e mostrar o diagrama sem ultrapassar esse limite.
+## Apresentação
+
+O enunciado pede um vídeo de até cinco minutos para cada nível. Na gravação, é melhor usar o diagrama como guia e explicar o fluxo com as próprias palavras, destacando as decisões e dificuldades mais importantes em cada etapa.
