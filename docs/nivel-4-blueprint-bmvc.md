@@ -1,47 +1,53 @@
 # Nível 4 — Blueprint do serviço | TechStock BMVC
 
-## Escopo
-Mapear como as ações do usuário no TechStock se conectam às rotas Bottle, à lógica da aplicação, aos modelos e à persistência em JSON.
+## O que este blueprint acompanha
+
+Aqui o foco é mostrar o caminho que uma ação percorre dentro do TechStock. Quando a pessoa faz login ou consulta um componente, por exemplo, a interface chama uma rota, a aplicação coordena a operação e os dados são lidos ou gravados nos arquivos JSON.
+
+O mapa foi montado a partir do código existente no repositório, não apenas de uma descrição geral de como um catálogo poderia funcionar.
 
 ## Blueprint por etapa
 
-| Camada | 1. Abrir portal | 2. Login | 3. Consultar Banco | 4. Filtrar lista | 5. CRUD via cURL | 6. Sair |
+| Camada | Abrir o Portal | Fazer login | Consultar Banco | Filtrar a lista | Manter o catálogo | Sair |
 |---|---|---|---|---|---|---|
-| Evidência física | Navegador e URL `/portal` | Formulário com usuário/senha | Tela Banco, tabela e indicadores | Campo de busca | Terminal, comando e resposta HTTP/JSON | Link Sair |
-| Ação do usuário | Acessa o endereço | Envia credenciais | Abre página de consulta | Digita termo | Envia POST/GET/PUT/DELETE com cookie | Clica em Sair |
-| Linha de interação | GET `/portal` | POST `/portal` | GET `/banco` | Evento de input no JavaScript | Rotas `/componentes` | GET `/logout` |
-| Frontstage — resposta visível | Formulário do Portal | Redirecionamento para Banco ou mensagem de erro | Tabela, contagens e usuário conectado | Linhas são filtradas no navegador | Mensagem de sucesso ou erro em JSON/código HTTP | Redirecionamento ao Portal |
-| Linha de visibilidade | A interface não mostra diretamente a lógica que executa o pedido |  |  |  |  |  |
-| Backstage — lógica interna | Bottle resolve a rota | `Application.autenticar` consulta `UserRecord` e verifica hash | `Application.render_banco` obtém lista e soma quantidades | `main.js` compara texto das linhas | Controller valida sessão, chama `ComponentRecord` e modelo `Componente` | `Application.logout` encerra token |
-| Processos de suporte | Servidor Bottle e templates | PBKDF2-HMAC-SHA256 + salt; `GerenciadorSessoes` cria token | Arquivo `componentes.json` | JavaScript no navegador e CSS | Validação de nome, categoria, quantidade e descrição; gravação JSON | Cookie `session_id` é removido |
+| Evidência física | Navegador e endereço /portal. | Formulário com usuário e senha. | Página Banco, indicadores e tabela. | Campo de busca. | Terminal e resposta HTTP/JSON do cURL. | Link Sair no cabeçalho. |
+| Ação do usuário | Acessa o endereço local. | Envia as credenciais. | Abre a página de consulta. | Digita um termo. | Envia uma requisição autenticada para a API. | Seleciona Sair. |
+| Contato com o sistema | GET /portal. | POST /portal. | GET /banco. | Evento de digitação tratado pelo JavaScript. | POST, PUT ou DELETE /componentes; também existe GET /componentes. | GET /logout. |
+| Frontstage — retorno visível | Formulário do Portal. | Redirecionamento para Banco ou mensagem de erro. | Tabela, indicadores e usuário conectado. | Linhas correspondentes ao termo digitado. | Mensagem e dados de retorno em JSON, com código HTTP. | Retorno à página Portal. |
+| Backstage — lógica da aplicação | Bottle encaminha a requisição para a rota. | Application.autenticar consulta UserRecord e confere a senha. | Application.render_banco obtém os componentes e calcula o total de unidades. | main.js compara o texto das linhas da tabela. | A rota confere a sessão, chama ComponentRecord e aplica as validações de Componente. | Application.logout encerra a sessão. |
+| Suporte e dados | Servidor Bottle e templates. | Hash PBKDF2-HMAC-SHA256 com salt; criação da sessão. | ComponentRecord e arquivo componentes.json. | JavaScript e CSS da página. | DataRecord faz a leitura/gravação JSON; testes verificam as operações. | Cookie session_id removido; sessão encerrada em memória. |
 
-## Arquitetura e responsabilidades
-- **View:** `portal.tpl`, `banco.tpl` e `layout.tpl` apresentam as páginas.
-- **Controller/rotas:** `route.py` trata login, logout, consulta e operações HTTP.
-- **Application:** coordena autenticação, renderização, sessão e acesso aos registros.
-- **Models:** `User_account`, `Componente`, `Sessao` e `GerenciadorSessoes`.
-- **DataRecord:** classe base para ler/gravar listas de objetos em JSON.
-- **UserRecord / ComponentRecord:** carregam, convertem e persistem contas e componentes.
-- **Persistência:** `app/controllers/db/user_accounts.json` e `componentes.json`, criados durante a primeira execução.
-- **Segurança da sessão:** token em cookie `session_id`, com atributos HttpOnly e SameSite=Lax; sessão expira em uma hora e fica em memória.
+## Quem faz o quê dentro do código
 
-## Operações e respostas
-| Operação | Método e rota | Resultado esperado |
+- **Rotas (route.py):** recebem as requisições de login, logout, consulta e manutenção dos componentes.
+- **Application (app/controllers/application.py):** coordena autenticação, sessão e montagem das páginas.
+- **Models:** User_account representa a conta; Componente representa um item do catálogo; Sessao e GerenciadorSessoes cuidam da sessão.
+- **Records (app/controllers/datarecord.py):** DataRecord é a base para ler e gravar dados; UserRecord e ComponentRecord trabalham com contas e componentes.
+- **Views:** portal.tpl, banco.tpl e layout.tpl montam as páginas.
+- **Arquivos de dados:** user_accounts.json e componentes.json guardam as informações persistidas.
+
+## Rotas e respostas
+
+| Ação | Rota | O que acontece |
 |---|---|---|
-| Login | POST `/portal` | Redireciona após autenticar; erro HTTP 401 em credenciais incorretas |
-| Consulta JSON | GET `/componentes` | Lista os registros, exigindo sessão |
-| CREATE | POST `/componentes` | HTTP 201; validação inválida retorna 400 |
-| UPDATE | PUT `/componentes/<id>` | HTTP 200; ID não encontrado retorna 404 |
-| DELETE | DELETE `/componentes/<id>` | HTTP 200; ID não encontrado retorna 404 |
-| Logout | GET `/logout` | Encerra sessão, remove cookie e redireciona ao Portal |
+| Entrar | POST /portal | Com credenciais válidas, cria uma sessão e redireciona para Banco. Credenciais incorretas retornam HTTP 401. |
+| Consultar em JSON | GET /componentes | Retorna os componentes e exige uma sessão válida. |
+| Cadastrar | POST /componentes | Cria um componente; quando os dados são aceitos, retorna HTTP 201. |
+| Alterar | PUT /componentes/<id> | Atualiza o componente; dados inválidos retornam 400 e ID não encontrado retorna 404. |
+| Excluir | DELETE /componentes/<id> | Remove o componente; ID não encontrado retorna 404. |
+| Sair | GET /logout | Encerra a sessão, remove o cookie e volta ao Portal. |
 
-## Linhas de falha e recuperação
-- **Credenciais incorretas:** a tela Portal apresenta erro e o usuário pode tentar novamente.
-- **Acesso sem sessão à API:** o controller responde HTTP 401.
-- **Dados inválidos:** o modelo `Componente` valida campos; a rota responde HTTP 400.
-- **ID inexistente:** UPDATE/DELETE respondem HTTP 404.
-- **Sessão expirada:** o token deixa de ser reconhecido; o usuário precisa autenticar de novo.
-- **Servidor reiniciado:** como as sessões são mantidas em memória, é necessário novo login; os dados do catálogo continuam nos JSON.
+As rotas de manutenção também exigem autenticação. Uma chamada sem sessão válida recebe HTTP 401.
 
-## Oportunidade de melhoria
-Criar formulários web para CREATE, UPDATE e DELETE, mantendo as mesmas rotas e validações. Isso aproximaria as operações do usuário da interface que já oferece a consulta, diminuindo erros de comando e necessidade de conhecer HTTP/cURL.
+## O que acontece quando algo dá errado
+
+- **Login incorreto:** a página mostra o erro e permite tentar novamente.
+- **Acesso à API sem login:** a rota bloqueia a requisição com HTTP 401.
+- **Campo inválido:** a validação do modelo impede a gravação e a rota responde HTTP 400.
+- **ID inexistente:** a tentativa de alterar ou excluir um componente retorna HTTP 404.
+- **Sessão expirada:** o token deixa de ser aceito e o usuário precisa entrar novamente.
+- **Servidor reiniciado:** as sessões são perdidas porque ficam em memória; os dados salvos nos arquivos JSON permanecem.
+
+## Uma melhoria que faria diferença
+
+Hoje, a consulta é feita pela interface web, mas a manutenção do catálogo depende do terminal. Uma melhoria seria criar formulários de cadastro, edição e exclusão na página Banco, aproveitando as rotas e as validações que o projeto já possui. Isso tornaria o uso mais direto sem precisar mudar a separação MVC.
