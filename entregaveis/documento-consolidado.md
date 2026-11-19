@@ -17,11 +17,11 @@ Os quatro níveis usam dois sistemas diferentes. Os níveis 1 e 2 tratam do Sist
 
 ## Níveis 1 e 2 — Desktop
 
-A jornada acompanha o Operador de Caixa durante uma venda: ele entra no sistema, inclui os produtos, confere o total, recebe o pagamento e entrega o recibo.
+A jornada acompanha o Operador de Caixa: ele abre o programa, escolhe o perfil de funcionário, inicia uma venda, adiciona os produtos e confere o total. O painel administrativo permite manter o estoque e consultar o relatório de vendas.
 
-No blueprint, esse mesmo atendimento é visto por dentro. Além das ações do operador, aparecem a consulta ao catálogo, a verificação do estoque, o cálculo do total, a validação do pagamento e o registro da venda.
+O blueprint mostra como essas ações se conectam à interface Tkinter e às rotinas do banco SQLite. O módulo de dados organiza produtos, vendas e itens da venda; ao registrar uma venda, atualiza as quantidades em estoque.
 
-Esses dois níveis seguem o estudo de caso do Módulo 01, que descreve o funcionamento esperado do sistema.
+O estudo de caso também prevê validação do pagamento e emissão de recibo. Esses dois pontos precisam ser confirmados na versão executável antes de serem apresentados como demonstrados.
 
 ## Níveis 3 e 4 — TechStock BMVC
 
