@@ -1,39 +1,43 @@
-# Nível 1 — Jornada do usuário | Desktop App
+# Nível 1 — Jornada do usuário | Sistema Desktop de Gestão e Caixa
 
-## Contexto
-**Sistema:** Sistema Desktop de Gestão e Caixa  
-**Persona:** operador de caixa de um pequeno comércio  
-**Objetivo:** concluir uma compra com rapidez, registrar o pagamento e garantir que o estoque seja atualizado.
+## Situação escolhida
 
-A jornada representa o fluxo especificado no estudo de caso do Módulo 01. Ela não afirma que as telas já estejam implementadas.
+Imagine um pequeno comércio em um momento de atendimento. O Operador de Caixa precisa registrar os produtos que o cliente está levando, receber o pagamento e concluir a venda sem deixar o estoque desatualizado.
 
-## Jornada
+Esta jornada segue o fluxo descrito no estudo de caso do Módulo 01. Como a documentação disponível não confirma todas as telas da versão executável, os pontos de contato abaixo representam o que seria necessário para realizar cada etapa.
 
-| Etapa | 1. Acesso | 2. Iniciar venda | 3. Incluir produtos | 4. Conferir total | 5. Receber pagamento | 6. Finalizar |
-|---|---|---|---|---|---|---|
-| Ação do usuário | Informa usuário e senha | Abre Nova Venda | Digita/consulta código ou identificador e repete para cada item | Solicita a totalização | Escolhe forma e informa/confirma valor pago | Confirma a operação e entrega o recibo |
-| Resposta esperada | Sistema autentica | Exibe área de venda | Localiza produto, mostra preço e soma ao parcial | Exibe valor final | Verifica valor pago em relação ao total | Registra venda, baixa estoque e gera recibo |
-| Pensamento | “Preciso entrar no caixa.” | “Vou iniciar o atendimento.” | “Os itens estão corretos?” | “Qual é o valor da compra?” | “O pagamento cobre o total?” | “A compra foi concluída?” |
-| Emoção | Expectativa | Foco | Atenção | Segurança ou dúvida | Tensão moderada | Alívio |
-| Dificuldade | Esquecer credenciais | Não encontrar a função | Produto não encontrado ou estoque insuficiente | Divergência de preço/quantidade | Valor pago inferior ao total | Falta de confirmação clara |
-| Oportunidade | Login simples e mensagem objetiva | Acesso direto a Nova Venda | Busca rápida, validação e mensagens claras | Total sempre visível | Informar diferença restante e impedir fechamento incorreto | Confirmar baixa no estoque e apresentar recibo |
+## Jornada do Operador de Caixa
 
-## Curva emocional qualitativa
+| Etapa | O que o operador faz | O que espera do sistema | Dúvida ou dificuldade possível |
+|---|---|---|---|
+| 1. Acesso | Informa usuário e senha. | Acesso liberado para iniciar o atendimento. | Esquecer os dados ou receber uma mensagem pouco clara. |
+| 2. Nova venda | Abre a área de registro de venda. | Encontrar o espaço para incluir os produtos. | Não localizar rapidamente a função de nova venda. |
+| 3. Produtos | Informa o código de barras ou identificador de cada produto. | Ver o produto encontrado, seu preço e o valor parcial da compra. | Código não localizado ou quantidade indisponível. |
+| 4. Conferência | Repete a inclusão dos itens e pede a totalização. | Conferir a lista e ver o valor final. | Perceber tarde que um item ou uma quantidade está incorreta. |
+| 5. Pagamento | Escolhe a forma de pagamento e confirma o valor recebido. | Saber se o valor recebido cobre o total. | O valor informado ser menor que o necessário. |
+| 6. Finalização | Conclui a venda e entrega o recibo. | Ter a confirmação da operação, o estoque atualizado e o comprovante. | Não saber se a venda foi realmente registrada. |
 
-| Etapa | Acesso | Iniciar | Produtos | Total | Pagamento | Finalização |
+## Como o usuário pode se sentir
+
+A satisfação abaixo é uma hipótese para ajudar a visualizar a jornada. Não foi medida em entrevistas ou testes com operadores reais.
+
+| Etapa | Acesso | Nova venda | Produtos | Conferência | Pagamento | Finalização |
 |---|---:|---:|---:|---:|---:|---:|
-| Satisfação estimada | 3 | 4 | 3 | 4 | 3 | 5 |
+| Satisfação estimada (1 a 5) | 3 | 4 | 3 | 4 | 3 | 5 |
 
-Escala ilustrativa de 1 (frustração) a 5 (satisfação), usada para comunicar a hipótese da jornada. Não é resultado de pesquisa com usuários.
+A inclusão dos produtos e o pagamento merecem atenção especial: são momentos em que um erro pode interromper o atendimento ou gerar diferença no estoque.
 
-## Momentos críticos
-1. **Produto inexistente:** o sistema informa que o produto não está no catálogo; o operador verifica o identificador e tenta novamente.
-2. **Estoque insuficiente:** o sistema alerta que não há quantidade disponível e o item não entra na compra.
-3. **Pagamento abaixo do total:** a regra RN01 impede finalizar a venda se o valor pago for menor que o total.
-4. **Estoque zerado:** a regra RN02 impede adicionar à lista de compras produto sem estoque.
+## Situações que mudam o fluxo
 
-## Resultado esperado
-Uma jornada clara permite ao operador passar do login ao recibo sem perder o controle dos itens. Os pontos mais sensíveis são a localização do produto, a disponibilidade no estoque e a validação do pagamento.
+- **Produto não encontrado:** o sistema informa que o identificador não corresponde a um produto cadastrado. O operador confere o código e tenta novamente.
+- **Estoque insuficiente:** o sistema avisa que não há quantidade disponível e o item não deve ser adicionado à compra.
+- **Pagamento menor que o total:** pela regra RN01, a venda não pode ser finalizada enquanto o valor pago for inferior ao valor registrado.
+- **Produto com estoque zerado:** pela regra RN02, ele não pode ser incluído na lista de compras.
 
-## Limite da análise
-Os passos vêm dos requisitos do Desktop. As telas específicas, mensagens visuais, dispositivo de pagamento e integração de emissão de recibo precisam ser confirmados na aplicação executável antes de serem apresentados como funcionalidades já implementadas.
+## O que poderia melhorar a experiência
+
+Ajudaria bastante se o sistema mantivesse o valor parcial e a quantidade de cada produto sempre visíveis, avisasse o motivo de uma operação não poder continuar e mostrasse uma confirmação clara no fim da venda. No caso do pagamento insuficiente, por exemplo, mostrar o valor que ainda falta evitaria dúvidas no caixa.
+
+## Limite desta jornada
+
+O fluxo foi elaborado a partir dos requisitos do Desktop. A existência de telas específicas, leitor de código de barras, integração com dispositivo de pagamento e impressão de recibo precisa ser confirmada diretamente na aplicação antes de ser apresentada como funcionalidade implementada.
