@@ -1,10 +1,7 @@
 # Materiais de apresentação
 
-Esta pasta reúne os materiais de apoio para apresentar os quatro níveis da atividade.
+- [Apresentação](apresentacao.md): ordem dos slides e divisão dos quatro vídeos.
+- [Documento consolidado](documento-consolidado.md): resumo das quatro etapas.
+- [Diagramas](../docs/diagramas-mermaid.md): jornadas e blueprints em formato editável.
 
-- [Estrutura dos slides](apresentacao.md): ordem sugerida e assunto de cada slide.
-- [Documento consolidado](documento-consolidado.md): resumo dos quatro níveis e links para os mapas completos.
-
-Os diagramas em formato editável estão em [docs/diagramas-mermaid.md](../docs/diagramas-mermaid.md).
-
-A atividade estabelece o limite de cinco minutos para cada vídeo. Vale usar os slides como apoio visual, sem tentar ler todo o conteúdo da tela.
+Cada vídeo deve respeitar o limite de cinco minutos indicado no enunciado.
