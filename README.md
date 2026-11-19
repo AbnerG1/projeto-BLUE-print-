@@ -33,5 +33,3 @@ Os projetos são diferentes, por isso cada um foi mantido separado. Aqui estão 
 ## Uma diferença importante entre os projetos
 
 Os níveis 1 e 2 seguem os requisitos documentados para o Desktop. Já os níveis 3 e 4 foram montados com base no código do TechStock. Neste último, a consulta aos componentes acontece pela página Banco, enquanto o cadastro, a alteração e a exclusão são feitos pelo terminal, usando cURL.
-
-A atividade pede um vídeo de até cinco minutos para cada nível.
