@@ -41,7 +41,7 @@ Os níveis 1 e 2 foram montados com base nos requisitos documentados do Desktop.
 
 Já os níveis 3 e 4 foram conferidos no código do TechStock. Nele, o usuário entra pelo Portal e consulta os componentes na página Banco. As operações de cadastro, alteração e exclusão são feitas por requisições cURL autenticadas no terminal, não por botões na página.
 
-Os roteiros de fala são material de preparação pessoal e não fazem parte deste repositório. Cada vídeo da atividade deve ter no máximo cinco minutos.
+Cada vídeo da atividade deve ter no máximo cinco minutos.
 
 ## De onde vieram as informações
 
