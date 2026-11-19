@@ -1,41 +1,44 @@
-# Nível 2 — Blueprint do serviço | Desktop App
+# Nível 2 — Blueprint do serviço | Sistema Desktop de Gestão e Caixa
 
-## Escopo do serviço
-**Serviço:** atendimento e registro de venda em um pequeno comércio.  
-**Ator principal:** Operador de Caixa.  
-**Atores de apoio:** Gerente (cadastro e acompanhamento do estoque) e cliente (participa da compra, sem interação direta especificada com o sistema).
+## Serviço analisado
 
-O blueprint detalha o fluxo de venda descrito nos requisitos do Módulo 01.
+O blueprint acompanha o atendimento no caixa, desde o login do Operador até a entrega do recibo. A intenção é mostrar não só o que acontece na frente do usuário, mas também o trabalho interno necessário para concluir uma venda.
+
+O Operador de Caixa é o ator principal. O Gerente aparece como responsável pelo cadastro e acompanhamento do estoque, conforme o estudo de caso. O cliente participa da compra, mas não tem uma interação direta com o sistema descrita no material.
 
 ## Blueprint por etapa
 
-| Camada | 1. Acesso | 2. Início | 3. Produtos | 4. Totalização | 5. Pagamento | 6. Conclusão |
+| Camada | Acesso | Início da venda | Inclusão de produtos | Totalização | Pagamento | Conclusão |
 |---|---|---|---|---|---|---|
-| Evidência física | Computador do caixa, teclado | Tela/área Nova Venda (prevista) | Produto, etiqueta ou código | Lista de itens e total (previstos) | Dinheiro/cartão/outro meio escolhido | Recibo/comprovante |
-| Ação do usuário | Operador informa credenciais | Abre nova venda | Informa código/identificador de cada item | Solicita fechamento da lista | Seleciona forma e confirma o pagamento | Entrega o recibo ao cliente |
-| Linha de interação | Envio de credenciais | Comando para iniciar | Consulta/retorno de produto | Solicitação de total | Confirmação do pagamento | Confirmação de venda finalizada |
-| Frontstage — interação visível | Tela de login | Interface apresenta fluxo de venda | Sistema exibe produto, preço e parcial | Sistema exibe total | Sistema informa resultado da validação | Sistema apresenta resultado e recibo |
-| Linha de visibilidade | A partir daqui o cliente/operador não vê a lógica interna |  |  |  |  |  |
-| Backstage — ações internas | Validar usuário | Preparar registro da venda | Consultar catálogo e conferir saldo | Calcular total | Conferir valor pago >= total e registrar pagamento | Persistir venda e atualizar quantidade |
-| Processos de suporte | Cadastro de usuários | Dados da venda/itens | Catálogo e controle de estoque | Regras de preço e cálculo | Regras de negócio RN01 | Persistência, baixa de estoque e geração do recibo |
+| Evidência física | Computador do caixa. | Área de nova venda prevista no sistema. | Produto, etiqueta ou código identificador. | Relação de itens e valor total. | Meio de pagamento escolhido. | Recibo ou comprovante. |
+| Ação do usuário | Informa as credenciais. | Inicia uma venda. | Informa o código/identificador de cada item. | Pede o fechamento da lista. | Seleciona a forma e confirma o valor recebido. | Entrega o recibo ao cliente. |
+| Contato com o sistema | Envia os dados de acesso. | Aciona a abertura da venda. | Faz a consulta do produto. | Solicita o cálculo do total. | Confirma o pagamento. | Recebe a confirmação da operação. |
+| Frontstage — o que aparece | Tela de login e retorno de acesso. | Área para registrar a venda. | Produto localizado, preço e parcial. | Valor final da compra. | Resultado da validação do pagamento. | Confirmação da venda e recibo. |
+| Backstage — o que precisa acontecer | Conferir usuário e senha. | Preparar o registro da venda. | Consultar o catálogo e verificar o saldo. | Somar os itens e calcular o total. | Conferir se o valor recebido é suficiente. | Registrar a venda e atualizar as quantidades. |
+| Suporte necessário | Cadastro de usuários. | Dados da venda e dos itens. | Catálogo e controle de estoque. | Regras de preço e cálculo. | Regra RN01. | Persistência dos dados, baixa do estoque e geração do recibo. |
 
-## Linhas de apoio e exceções
-- **Autenticação:** o operador precisa estar logado para abrir a venda.
-- **Produto não encontrado:** o sistema informa o problema; o operador confere o código e retorna à inclusão.
-- **Estoque insuficiente:** o sistema alerta e não adiciona o item.
-- **Pagamento insuficiente:** a venda não é finalizada enquanto o valor pago for menor que o total (RN01).
-- **Estoque zerado:** o produto não pode entrar na lista de compras (RN02).
+## Exceções que precisam ser tratadas
 
-## Backstage e suporte
-O serviço depende de um catálogo de produtos atualizado, disponibilidade de estoque, cálculo consistente dos totais, validação do pagamento e gravação da venda. O gerente é responsável pela gestão/cadastro dos produtos e pelo acompanhamento do estoque, conforme o estudo de caso.
+1. **Produto não encontrado:** a consulta não retorna um item válido. O sistema precisa avisar o operador e permitir que ele confira o código.
+2. **Estoque insuficiente:** a quantidade disponível não atende ao pedido. O item não deve ser incluído.
+3. **Pagamento insuficiente:** a regra RN01 impede finalizar a venda quando o valor pago é menor que o total.
+4. **Estoque zerado:** a regra RN02 impede que o produto entre na lista de compras.
 
-## Pontos de falha e melhorias
-| Risco | Consequência | Melhoria sugerida |
+## O que acontece nos bastidores
+
+Para o atendimento funcionar, o sistema depende de um catálogo atualizado, informações corretas de preço e quantidade, cálculo consistente dos itens e registro da venda concluída. O Gerente tem papel importante na manutenção do catálogo e no acompanhamento do estoque.
+
+No fechamento, a atualização do estoque e a geração do recibo precisam acontecer como parte do resultado da venda. O cliente e o operador devem receber uma confirmação que deixe claro que a operação terminou.
+
+## Pontos de atenção e melhorias possíveis
+
+| Ponto de atenção | O que pode acontecer | Ideia para evitar o problema |
 |---|---|---|
-| Identificador incorreto | Produto não localizado | Mostrar mensagem específica e manter o foco no campo |
-| Estoque desatualizado | Tentativa de vender item indisponível | Conferir saldo no momento de incluir e finalizar |
-| Valor recebido menor | Fechamento incorreto | Bloquear conclusão e mostrar valor restante |
-| Falta de confirmação | Dúvida sobre a conclusão | Exibir status final e permitir reimpressão do recibo, se suportado |
+| Código digitado incorretamente | O produto não é localizado. | Mostrar uma mensagem direta e facilitar uma nova tentativa. |
+| Quantidade desatualizada | O caixa tenta vender algo que não está disponível. | Conferir o saldo antes de incluir o item e no fechamento. |
+| Valor recebido abaixo do total | A venda pode ficar incompleta. | Não permitir a conclusão e mostrar quanto falta. |
+| Falta de confirmação | O operador não sabe se a venda foi gravada. | Exibir o resultado e disponibilizar o recibo. |
 
-## Limite de evidência
-As camadas de interação e suporte descrevem o serviço esperado conforme os requisitos. Não foi possível verificar no material acessível a implementação de telas concretas, integração com dispositivo de pagamento ou mecanismo de impressão; esses elementos devem ser apresentados como evidências/etapas previstas, não como recursos já comprovados.
+## Limite do blueprint
+
+Este mapa representa o serviço especificado no Módulo 01. Os materiais consultados não confirmam todas as telas, o dispositivo de pagamento ou o mecanismo de impressão. Esses pontos aparecem como partes necessárias ou previstas do serviço, não como recursos cuja implementação foi verificada.
