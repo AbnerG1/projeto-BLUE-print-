@@ -1,40 +1,26 @@
 # Nível 3 — Jornada do usuário | TechStock BMVC
 
-## Quem usa e o que precisa fazer
-
-Para esta jornada, considerei uma pessoa responsável por consultar e manter o catálogo de componentes eletrônicos. Ela precisa entrar no TechStock, localizar um item e, quando necessário, atualizar os registros.
-
-O fluxo foi conferido no código do [TechStock BMVC](https://github.com/AbnerG1/techstock-bmvc), incluindo as rotas, os modelos, as páginas e os testes.
+Considerei uma pessoa que trabalha com o catálogo de componentes eletrônicos e precisa consultar os itens ou atualizar seus registros.
 
 ## Jornada no TechStock
 
-| Etapa | O que a pessoa faz | Resposta do sistema | Onde pode encontrar dificuldade |
+| Etapa | O que a pessoa faz | Resposta do sistema | Onde pode ter dificuldade |
 |---|---|---|---|
-| 1. Acessar | Abre /portal no navegador. | O sistema apresenta o formulário de login. | Não saber o endereço ou acessar com o servidor desligado. |
-| 2. Entrar | Informa usuário e senha. | Com os dados corretos, a aplicação abre /banco. Com dados incorretos, apresenta uma mensagem de erro. | Digitar uma credencial errada ou não entender o motivo da falha. |
-| 3. Consultar | Abre a lista de componentes. | A página mostra ID, nome, categoria, quantidade e descrição, além de um resumo do catálogo. | Ter dificuldade para identificar rapidamente o item desejado. |
-| 4. Buscar | Digita um termo no campo de busca. | As linhas que contêm o termo digitado continuam visíveis. | Não encontrar o item ou usar um termo diferente do cadastrado. |
-| 5. Manter o catálogo | Usa o terminal e o cURL para cadastrar, alterar ou excluir um componente. | A API retorna uma resposta e um código HTTP. | Precisar conhecer os comandos, as rotas e o cookie da sessão. |
-| 6. Conferir e sair | Atualiza a página e seleciona Sair quando termina. | A lista mostra os dados salvos e a sessão é encerrada. | Esquecer de atualizar a página antes de conferir a mudança. |
+| 1. Acessar | Abre /portal no navegador. | Apresenta a tela de login. | O servidor pode não estar iniciado ou o endereço pode estar incorreto. |
+| 2. Entrar | Informa usuário e senha. | Com os dados corretos, abre /banco. Caso contrário, mostra uma mensagem de erro. | Digitar uma credencial incorreta. |
+| 3. Consultar | Abre a lista de componentes. | Mostra ID, nome, categoria, quantidade e descrição. Também apresenta o número de tipos cadastrados e o total de unidades. | Ter muitos itens para conferir. |
+| 4. Buscar | Digita um termo no campo de busca. | Filtra as linhas da tabela no próprio navegador. | Não encontrar o item pelo termo digitado. |
+| 5. Atualizar o catálogo | Usa o terminal e o cURL para cadastrar, alterar ou excluir um componente. | A API retorna o resultado da operação e o código HTTP. | Precisar conhecer os comandos e manter o cookie da sessão. |
+| 6. Conferir e sair | Atualiza a página e seleciona Sair. | Mostra os dados atualizados e encerra a sessão. | Esquecer de atualizar a página antes de conferir. |
 
-## O que já existe no projeto
+## Como o TechStock funciona hoje
 
-- O acesso é feito pela rota /portal.
-- Depois do login, a aplicação redireciona para /banco.
-- A página Banco apresenta os componentes e o total de unidades cadastradas.
-- O campo sugere uma busca por nome ou categoria. No código atual, porém, o JavaScript compara o texto completo de cada linha da tabela; por isso, o filtro também pode encontrar termos no ID, na quantidade ou na descrição.
-- A consulta também pode ser feita pela rota GET /componentes, que retorna os registros em JSON.
-- O cadastro usa POST /componentes; a alteração usa PUT /componentes/{id}; e a exclusão usa DELETE /componentes/{id}.
-- As operações de manutenção são feitas pelo terminal com cURL. A página não possui botões ou formulários gráficos para essas três operações.
+A consulta pode ser feita diretamente pela página Banco. Também existe a rota GET /componentes, que retorna os dados em JSON.
 
-Na primeira execução, o catálogo já recebe três exemplos: um resistor de 220 Ω, um capacitor de 100 µF e uma placa ESP32 DevKit. Eles ajudam a demonstrar a consulta sem precisar cadastrar tudo do zero.\n\n## Onde a experiência pode melhorar
+O cadastro é feito por POST /componentes, a alteração por PUT /componentes/{id} e a exclusão por DELETE /componentes/{id}. Essas três operações exigem autenticação e são executadas pelo terminal com cURL; a página não tem botões para elas.
 
-O ponto que mais chama atenção é a diferença entre consultar e manter o catálogo. A consulta é simples e acontece no navegador; para cadastrar, editar ou excluir, a pessoa precisa sair da página e usar o terminal.
+Na primeira execução, o catálogo já vem com três exemplos: um resistor de 220 Ω, um capacitor de 100 µF e uma placa ESP32 DevKit.
 
-Também é necessário manter a autenticação nas requisições. Sem uma sessão válida, a API bloqueia o acesso. Dados inválidos e IDs inexistentes também geram respostas de erro.
+O campo de busca sugere procurar por nome ou categoria, mas o código atual filtra o texto completo de cada linha. Por isso, também pode encontrar termos presentes no ID, na quantidade ou na descrição.
 
-Uma evolução natural seria trazer o cadastro, a edição e a exclusão para a própria interface, mantendo as validações que já existem no código. Assim, a pessoa não precisaria decorar comandos cURL para tarefas comuns.
-
-## Observação sobre a persona e a curva emocional
-
-A persona é representativa do uso do catálogo, não um perfil de funcionário real entrevistado. Da mesma forma, qualquer nota de satisfação usada na apresentação deve ser entendida como uma estimativa para ilustrar a jornada, não como resultado de uma pesquisa com usuários.
+O ponto que mais dificulta o uso é ter que sair da página e recorrer ao terminal para fazer alterações no catálogo.
