@@ -4,25 +4,18 @@
 
 ~~~mermaid
 flowchart LR
- A["Acessar o sistema"] --> B["Iniciar uma venda"]
- B --> C["Informar o produto"]
- C --> D{"Produto foi localizado?"}
- D -- "Não" --> E["Conferir o código e tentar novamente"]
- E --> C
- D -- "Sim" --> F{"Há estoque suficiente?"}
- F -- "Não" --> G["Aviso de estoque insuficiente"]
- G --> C
- F -- "Sim" --> H["Incluir item e atualizar parcial"]
- H --> I{"Há mais produtos?"}
- I -- "Sim" --> C
- I -- "Não" --> J["Conferir o total"]
- J --> K["Escolher forma e confirmar pagamento"]
- K --> L{"Valor pago cobre o total?"}
- L -- "Não" --> M["Informar quanto falta"]
- M --> K
- L -- "Sim" --> N["Registrar venda"]
- N --> O["Atualizar estoque"]
- O --> P["Gerar e entregar recibo"]
+ A["Abrir o programa"] --> B["Escolher Funcionário (Caixa)"]
+ B --> C["Iniciar nova venda"]
+ C --> D["Adicionar produto"]
+ D --> E{"Produto encontrado e disponível?"}
+ E -- "Não" --> F["Mostrar aviso e corrigir a seleção"]
+ F --> D
+ E -- "Sim" --> G["Incluir item e atualizar total"]
+ G --> H{"Há mais produtos?"}
+ H -- "Sim" --> D
+ H -- "Não" --> I["Conferir o carrinho e o total"]
+ I --> J["Fechar ou cancelar a venda"]
+ J --> K["Registrar venda e atualizar estoque"]
 ~~~
 
 ## Nível 2 — Blueprint Desktop
@@ -30,48 +23,40 @@ flowchart LR
 ~~~mermaid
 flowchart TB
  subgraph U["Ações do Operador de Caixa"]
- U1["Entrar no sistema"] --> U2["Iniciar a venda"]
- U2 --> U3["Informar os produtos"]
- U3 --> U4["Conferir o total"]
- U4 --> U5["Confirmar o pagamento"]
- U5 --> U6["Entregar o recibo"]
+ U1["Escolher Funcionário (Caixa)"] --> U2["Iniciar nova venda"]
+ U2 --> U3["Adicionar produtos"]
+ U3 --> U4["Conferir carrinho e total"]
+ U4 --> U5["Fechar ou cancelar"]
  end
  subgraph F["Frontstage — o que o operador vê"]
- F1["Retorno do login"] --> F2["Área de venda"]
- F2 --> F3["Produto, preço e parcial"]
- F3 --> F4["Total da compra"]
- F4 --> F5["Resultado do pagamento"]
- F5 --> F6["Confirmação e recibo"]
+ F1["Tela de seleção de perfil"] --> F2["Área do funcionário"]
+ F2 --> F3["Tela Nova Venda"]
+ F3 --> F4["Itens e total atualizado"]
+ F4 --> F5["Retorno do fechamento ou cancelamento"]
  end
  subgraph B["Backstage — o que acontece internamente"]
- B1["Validar usuário"] --> B2["Preparar venda"]
- B2 --> B3["Consultar catálogo e estoque"]
- B3 --> B4["Calcular total"]
- B4 --> B5["Conferir valor recebido"]
- B5 --> B6["Registrar venda e atualizar estoque"]
+ B1["Definir perfil ativo"] --> B2["Preparar carrinho"]
+ B2 --> B3["Consultar produto e estoque"]
+ B3 --> B4["Somar os itens"]
+ B4 --> B5["Registrar venda e baixar estoque"]
  end
  subgraph S["Processos de suporte"]
- S1["Cadastro de usuários"] --> S2["Catálogo de produtos"]
- S2 --> S3["Regras de negócio"]
- S3 --> S4["Persistência e geração do recibo"]
+ S1["Painel administrativo e controle de acesso"] --> S2["Cadastro e catálogo de produtos"]
+ S2 --> S3["SQLite: produtos, vendas e itens_venda"]
  end
  U1 --> F1
  U2 --> F2
  U3 --> F3
  U4 --> F4
  U5 --> F5
- U6 --> F6
  F1 --> B1
  F2 --> B2
  F3 --> B3
  F4 --> B4
  F5 --> B5
- B5 --> B6
- B6 --> F6
  B1 --> S1
  B3 --> S2
  B5 --> S3
- B6 --> S4
 ~~~
 
 ## Nível 3 — Jornada TechStock
