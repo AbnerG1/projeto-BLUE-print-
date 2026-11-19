@@ -1,24 +1,31 @@
 # Nível 2 — Blueprint do serviço | Sistema Desktop de Gestão e Caixa
 
-O blueprint acompanha uma venda desde o acesso do Operador de Caixa até a entrega do recibo. Além das ações do operador, ele mostra o retorno da interface e as tarefas internas necessárias para concluir o atendimento.
+O blueprint acompanha o trabalho do operador desde a escolha do perfil até o encerramento da venda. Também inclui as atividades do painel administrativo que mantêm o catálogo e o estoque atualizados.
 
-O Operador de Caixa é o ator principal. O Gerente aparece no estudo de caso como responsável pelo cadastro e acompanhamento do estoque.
+## Blueprint da venda
 
-## Blueprint
+| Camada | Acesso | Início da venda | Inclusão dos produtos | Totalização | Fechamento |
+|---|---|---|---|---|---|
+| Evidência física | Tela "Selecione seu acesso". | Painel do funcionário e botão "Iniciar nova venda". | Janela de venda, carrinho e botão "Adicionar Produto". | Lista de itens e total. | Botões "Fechar Venda" e "Cancelar Venda". |
+| Ação do usuário | Escolhe "Funcionário (Caixa)". | Inicia uma venda. | Adiciona os produtos da compra. | Confere os itens e o total. | Fecha ou cancela a venda. |
+| Frontstage — o que aparece | Área do funcionário. | Tela "Nova Venda". | Produtos incluídos no carrinho. | Total da venda atualizado. | Retorno ao painel após fechar ou cancelar. |
+| Backstage — o que acontece | Define o perfil ativo. | Prepara o carrinho e a nova venda. | Consulta o produto e verifica a quantidade disponível. | Soma os subtotais dos itens. | Registra a venda e atualiza o estoque. |
+| Suporte necessário | Tela de perfis e controle de acesso. | Interface Tkinter. | Catálogo e consulta ao estoque. | Lógica de cálculo. | SQLite e rotinas de venda. |
 
-| Camada | Acesso | Início da venda | Inclusão dos produtos | Totalização | Pagamento | Conclusão |
-|---|---|---|---|---|---|---|
-| Evidência física | Computador do caixa. | Área de nova venda. | Produto, etiqueta ou código. | Lista de itens e total. | Meio de pagamento escolhido. | Recibo ou comprovante. |
-| Ação do usuário | Informa as credenciais. | Inicia uma venda. | Informa o código de cada item. | Confere a lista e pede o total. | Escolhe a forma e informa o valor recebido. | Entrega o recibo ao cliente. |
-| Contato com o sistema | Envia os dados de acesso. | Abre o registro da venda. | Consulta cada produto. | Calcula o valor final. | Confirma o pagamento. | Apresenta o resultado da venda. |
-| Frontstage — o que aparece | Tela de login e retorno do acesso. | Área de registro da venda. | Nome do produto, preço e parcial. | Valor total da compra. | Resultado da validação do pagamento. | Confirmação e recibo. |
-| Backstage — o que acontece | Confere usuário e senha. | Prepara o registro da venda. | Consulta o catálogo e verifica o estoque. | Soma os itens e calcula o total. | Confere se o valor recebido cobre a compra. | Registra a venda e atualiza as quantidades. |
-| Suporte necessário | Cadastro de usuários. | Dados da venda e dos itens. | Catálogo e controle de estoque. | Regras de preço e cálculo. | Regra RN01. | Armazenamento dos dados e geração do recibo. |
+## Administração do estoque
 
-## Quando algo não sai como esperado
+O perfil Administrador/Gerente abre o painel administrativo. Nele estão as operações de criar, listar, atualizar e excluir produtos, além do relatório de vendas do dia. Essas ações dão suporte ao trabalho do caixa porque mantêm o catálogo e as quantidades disponíveis.
 
-- Se o produto não for encontrado, o sistema avisa e o operador confere o código.
-- Se não houver estoque suficiente, o item não entra na venda. A regra RN02 também impede incluir produtos com estoque zerado.
-- Se o valor recebido for menor que o total, a regra RN01 impede finalizar a venda.
+## O que acontece no banco de dados
 
-O catálogo e o controle de estoque, mantidos pelo Gerente, dão suporte ao trabalho do caixa. No fim da venda, o registro, a atualização das quantidades e o recibo precisam corresponder à mesma operação.
+O módulo sistema_bd.py usa SQLite e cria três tabelas:
+
+- produtos: guarda nome, preço e quantidade em estoque.
+- vendas: guarda o registro e o total da venda.
+- itens_venda: relaciona os produtos e as quantidades incluídas em cada venda.
+
+A rotina registrar_venda_e_baixar_estoque grava a venda, registra os itens e diminui as quantidades correspondentes no estoque.
+
+## Um ponto para conferir antes da apresentação
+
+O estudo de caso do Módulo 01 prevê selecionar a forma de pagamento, validar o valor recebido pela regra RN01 e gerar um recibo. A gravação analisada mostra o total e o botão de fechar venda, mas não permite confirmar uma etapa separada de pagamento ou a emissão do recibo. Antes de apresentá-los como funções implementadas, é importante verificar esses passos na versão que será executada.
