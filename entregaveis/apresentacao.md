@@ -1,7 +1,5 @@
 # Apresentação — BLUE print
 
-A apresentação está dividida em quatro partes, uma para cada nível da atividade.
-
 ## Ordem dos slides
 
 | Slide | Tema | Conteúdo |
@@ -18,17 +16,6 @@ A apresentação está dividida em quatro partes, uma para cada nível da ativid
 | 10 | Nível 4 — Respostas da API | Códigos HTTP, sessão e persistência. |
 | 11 | Comparação dos projetos | Desktop: fluxo descrito nos requisitos. TechStock: fluxo conferido no código. |
 | 12 | Encerramento | Fontes consultadas e divisão das entregas. |
-
-## Divisão dos vídeos
-
-O enunciado pede um vídeo de até cinco minutos para cada nível.
-
-- **Nível 1:** slides 3 e 4.
-- **Nível 2:** slides 5 e 6.
-- **Nível 3:** slides 7 e 8.
-- **Nível 4:** slides 9 e 10.
-
-Os slides 1 e 2 servem de introdução. Os slides 11 e 12 podem ser usados no fechamento, caso haja tempo.
 
 ## Documentos de apoio
 
