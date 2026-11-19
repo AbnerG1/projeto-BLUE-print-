@@ -13,14 +13,19 @@ O trabalho foi dividido em quatro níveis, usando dois projetos diferentes.
 
 - Estudo de caso do Sistema Desktop de Gestão e Caixa (Módulo 01).
 - [Projeto Desktop](https://github.com/AbnerG1/Projeto-desktop).
+- Demonstração do Desktop enviada pelo aluno.
 - [TechStock BMVC](https://github.com/AbnerG1/techstock-bmvc): README, rotas, modelos, controllers, páginas, JavaScript e testes.
 
 ## Sobre os mapas
 
-A jornada mostra o caminho percorrido pelo usuário e os pontos em que ele pode encontrar dificuldade. O blueprint acrescenta o que acontece por trás da interface para que cada etapa funcione.
+A jornada acompanha as ações do usuário. O blueprint mostra também o que a interface apresenta e quais processos internos dão suporte a cada etapa.
 
-No Desktop, usei o fluxo descrito no estudo de caso: login, início da venda, inclusão de produtos, totalização, pagamento, atualização do estoque e recibo. Os materiais disponíveis descrevem o comportamento esperado, mas não permitiram confirmar todas as telas e integrações da versão executável. Por isso, os níveis 1 e 2 representam o serviço previsto nos requisitos.
+No Desktop, a gravação mostra a escolha do perfil, o painel do funcionário, a abertura de uma venda e as opções para adicionar produtos, fechar ou cancelar a venda. O painel administrativo também apresenta cadastro, listagem, atualização e exclusão de produtos, além do relatório de vendas.
 
-No TechStock, foi possível conferir as etapas diretamente no código. O usuário entra por /portal e consulta os componentes em /banco. O filtro é feito no navegador. A consulta também existe pela rota GET /componentes; já o cadastro, a alteração e a exclusão são feitos por requisições cURL autenticadas.
+O módulo de dados disponível usa SQLite. Ele cria as tabelas de produtos, vendas e itens da venda. A rotina de registro da venda grava o total e os itens e atualiza a quantidade em estoque.
+
+O estudo de caso do Módulo 01 também prevê a seleção da forma de pagamento, a regra RN01 e a emissão de recibo. Esses pontos precisam ser conferidos na versão executável: não aparecem de forma clara na gravação analisada nem no esquema SQLite disponível.
+
+No TechStock, foi possível conferir o fluxo diretamente no código. O usuário entra por /portal e consulta os componentes em /banco. O filtro é feito no navegador. A consulta também existe pela rota GET /componentes; já o cadastro, a alteração e a exclusão são feitos por requisições cURL autenticadas.
 
 Os dados do TechStock ficam em arquivos JSON. As sessões são mantidas em memória, expiram após uma hora e precisam ser refeitas quando o servidor é reiniciado.
