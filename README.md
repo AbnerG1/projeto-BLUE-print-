@@ -3,14 +3,15 @@
 **Aluno:** Abner da Silva Gomes  
 **Matrícula:** 251018184
 
-Este repositório reúne as quatro etapas da atividade de Design de Serviço. Para desenvolvê-las, usei dois projetos que já fazem parte do meu trabalho: o Sistema Desktop de Gestão e Caixa e o TechStock BMVC.
+Este repositório reúne as quatro etapas da atividade de Design de Serviço. Para desenvolvê-las, usei dois projetos que já fazem parte do trabalho: o Sistema Desktop de Gestão e Caixa e o TechStock BMVC.
 
-Os projetos são diferentes, por isso cada um foi mantido separado. Aqui estão as jornadas, os blueprints, os diagramas e os materiais de apresentação.
+Os projetos continuam separados. Aqui ficam as jornadas, os blueprints, os diagramas e os materiais de apresentação.
 
 ## Projetos
 
-- [Sistema Desktop de Gestão e Caixa](https://github.com/AbnerG1/Projeto-desktop) — proposta de sistema para pequenos comércios, com cadastro de produtos, vendas e controle de estoque.
-- [TechStock BMVC](https://github.com/AbnerG1/techstock-bmvc) — catálogo de componentes eletrônicos feito em Python com Bottle e organização MVC.
+- [Sistema Desktop de Gestão e Caixa](https://github.com/AbnerG1/Projeto-desktop) — sistema para pequenos comércios, com cadastro de produtos, vendas e controle de estoque.
+- [TechStock BMVC](https://github.com/AbnerG1/techstock-bmvc) — catálogo de componentes eletrônicos feito em Python com Bottle.
+- [BMVC — projeto inicial do professor](https://github.com/hgmachine/bmvc_start_from_this) — referência de estrutura para rotas, aplicação, modelos, registros e páginas.
 
 ## Entregas
 
@@ -30,6 +31,6 @@ Os projetos são diferentes, por isso cada um foi mantido separado. Aqui estão 
 - [Documento consolidado](entregaveis/documento-consolidado.md)
 - [Apresentação](entregaveis/apresentacao.md)
 
-## Uma diferença importante entre os projetos
+## Como os projetos se complementam
 
-Os níveis 1 e 2 seguem os requisitos documentados para o Desktop. Já os níveis 3 e 4 foram montados com base no código do TechStock. Neste último, a consulta aos componentes acontece pela página Banco, enquanto o cadastro, a alteração e a exclusão são feitos pelo terminal, usando cURL.
+Nos níveis 1 e 2, a análise acompanha o trabalho do caixa e do gerente no Desktop. Nos níveis 3 e 4, acompanha o uso do TechStock e a organização interna do código BMVC. A referência inicial do professor ajudou a orientar a leitura da arquitetura, mas o diagrama descreve as classes e rotas que realmente existem no TechStock.
