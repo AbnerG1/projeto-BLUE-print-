@@ -9,14 +9,11 @@ O trabalho foi dividido em quatro níveis, usando dois projetos diferentes.
 | 3 | TechStock BMVC | Pessoa que consulta o catálogo | Jornada do usuário |
 | 4 | TechStock BMVC | Pessoa que consulta e mantém o catálogo | Blueprint |
 
-O repositório BLUE print reúne os documentos da atividade. Os códigos dos dois sistemas continuam em seus repositórios originais.
-
 ## Materiais consultados
 
 - Estudo de caso do Sistema Desktop de Gestão e Caixa (Módulo 01).
-- [Repositório Projeto-desktop](https://github.com/AbnerG1/Projeto-desktop).
-- [Repositório TechStock BMVC](https://github.com/AbnerG1/techstock-bmvc): README, rotas, modelos, controllers, páginas, JavaScript e testes.
-- Enunciado da atividade enviado em imagem.
+- [Projeto Desktop](https://github.com/AbnerG1/Projeto-desktop).
+- [TechStock BMVC](https://github.com/AbnerG1/techstock-bmvc): README, rotas, modelos, controllers, páginas, JavaScript e testes.
 
 ## Sobre os mapas
 
@@ -27,8 +24,3 @@ No Desktop, usei o fluxo descrito no estudo de caso: login, início da venda, in
 No TechStock, foi possível conferir as etapas diretamente no código. O usuário entra por /portal e consulta os componentes em /banco. O filtro é feito no navegador. A consulta também existe pela rota GET /componentes; já o cadastro, a alteração e a exclusão são feitos por requisições cURL autenticadas.
 
 Os dados do TechStock ficam em arquivos JSON. As sessões são mantidas em memória, expiram após uma hora e precisam ser refeitas quando o servidor é reiniciado.
-
-## Projetos de origem
-
-- [Sistema Desktop de Gestão e Caixa](https://github.com/AbnerG1/Projeto-desktop)
-- [TechStock BMVC](https://github.com/AbnerG1/techstock-bmvc)
