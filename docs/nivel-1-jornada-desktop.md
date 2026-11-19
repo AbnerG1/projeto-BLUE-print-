@@ -1,22 +1,37 @@
 # Nível 1 — Jornada do usuário | Sistema Desktop de Gestão e Caixa
 
-**Perfil:** operador de caixa de um pequeno comércio.  
-**Objetivo:** registrar os produtos da compra e concluir a venda.
+O sistema tem dois perfis, cada um com tarefas diferentes: o Funcionário (Caixa), que atende as compras, e o Gerente, que cuida dos produtos e acompanha os resultados do dia.
 
-## Jornada do Operador de Caixa
+## Jornada do Funcionário (Caixa)
 
-| Etapa | O que o operador faz | Resposta do sistema | Onde pode ter dificuldade |
-|---|---|---|---|
-| 1. Escolher o perfil | Abre o programa e seleciona "Funcionário (Caixa)". | Entra na área do funcionário. | Escolher o perfil errado ou não saber qual opção usar. |
-| 2. Iniciar a venda | Seleciona "Iniciar nova venda". | Abre uma tela de venda com a lista de itens e o total. | Iniciar uma venda sem querer ou não encontrar a opção. |
-| 3. Adicionar produtos | Usa "Adicionar Produto" para incluir os itens da compra. | Os itens aparecem no carrinho e o total é atualizado. | Informar um produto inexistente ou pedir uma quantidade maior que o estoque. |
-| 4. Conferir a compra | Verifica os produtos e o valor total. | Mostra os itens registrados e o total da venda. | Não perceber um item ou quantidade incorreta. |
-| 5. Fechar ou cancelar | Seleciona "Fechar Venda" ou "Cancelar Venda". | A venda é encerrada ou cancelada. | Fechar uma compra por engano ou não ter certeza de que ela foi registrada. |
+**Objetivo:** registrar a compra, receber o pagamento e entregar a nota fiscal.
 
-## Outra parte do sistema
+| Etapa | O que o funcionário faz | Resposta do sistema |
+|---|---|---|
+| 1. Acessar | Abre o programa e escolhe Funcionário (Caixa). | Mostra o painel do funcionário. |
+| 2. Iniciar venda | Seleciona a opção de nova venda. | Abre a tela de venda. |
+| 3. Adicionar produtos | Inclui os produtos e as quantidades solicitadas. | Mostra os itens no carrinho e atualiza o total. |
+| 4. Conferir | Confere os produtos e o valor da compra. | Apresenta o resumo da venda. |
+| 5. Receber pagamento | Informa os dados solicitados para concluir a compra. | Processa o fechamento da venda. |
+| 6. Finalizar | Confirma a venda. | Registra a operação e emite a nota fiscal. |
 
-O Gerente/Administrador entra por um perfil separado, protegido por senha. No painel administrativo, pode cadastrar, listar, atualizar e excluir produtos, consultar o relatório de vendas e iniciar uma venda.
+## Jornada do Gerente
 
-## Relação com os requisitos do Módulo 01
+**Objetivo:** manter os produtos atualizados e acompanhar o movimento do comércio.
 
-O estudo de caso também prevê o processamento do pagamento, a regra RN01 (não finalizar quando o valor pago for menor que o total) e a emissão de recibo. Esses passos devem ser mostrados na gravação caso estejam disponíveis na versão executável. Na demonstração analisada, eles não ficaram visíveis com clareza.
+| Etapa | O que o gerente faz | Resposta do sistema |
+|---|---|---|
+| 1. Acessar | Abre o programa e escolhe o perfil de Gerente. | Mostra o painel administrativo. |
+| 2. Cadastrar | Informa os dados de um novo produto. | Adiciona o produto ao catálogo. |
+| 3. Atualizar | Localiza um produto e altera suas informações. | Salva os dados atualizados. |
+| 4. Conferir estoque | Consulta os produtos e suas quantidades. | Apresenta a situação do catálogo. |
+| 5. Consultar resultados | Abre o relatório do dia. | Mostra a quantidade de vendas e o total arrecadado. |
+
+## Pontos de atenção durante o uso
+
+- O caixa pode selecionar um produto que não existe ou tentar vender uma quantidade maior que o estoque.
+- Antes de fechar a compra, é importante conferir os itens e o total.
+- O gerente precisa manter preços e quantidades atualizados para evitar divergências nas vendas.
+- O relatório diário ajuda a acompanhar o movimento do comércio sem precisar somar as vendas manualmente.
+
+A jornada considera as funções confirmadas na versão do Desktop apresentada pelo aluno. A demonstração em vídeo deve mostrar os dois perfis e pelo menos uma venda concluída, com a emissão da nota fiscal e a consulta ao relatório diário.
